@@ -11,6 +11,13 @@ public class CharacterObject : EntityObject
 
     public FSM FSM { get; protected set; }
 
+    public GunObject GunObject { get; set; }    // 현재 플레이어가 장착하고 있는 총 오브젝트
+
+    // 부위
+    [Header("부위 노드")]
+    [SerializeField] protected Transform gunNode;
+    public Transform GunNode => gunNode;
+
     protected virtual void Awake()
     {
         MotionHandler = animator.transform.GetComponent<MotionHandler>();

@@ -1,3 +1,5 @@
 Id,Path
 10001,Prefabs/SoundObject/TestBGM
 10002,Prefabs/SoundObject/TestSFX
+20001,Prefabs/Character/Player
+90001,Prefabs/Weapon/Rifle

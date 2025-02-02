@@ -23,6 +23,5 @@ public class LoadingCanvas : LocalSingleton<LoadingCanvas>
     private void Start()
     {
         LoadingPanel.Init();
-        LoadingPanel.OnHide();  // 로딩 패널은 씬 넘어갈때만 활성화 해야 함
     }
 }

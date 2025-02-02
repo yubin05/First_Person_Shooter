@@ -8,6 +8,11 @@ public class LoadingPanel : View<LoadingPanelPresenter, LoadingPanelModel>
 {
     [SerializeField] private TextMeshProUGUI loadingTxt;
 
+    private void Start()
+    {
+        OnHide();
+    }
+
     public override void UpdateUI(LoadingPanelModel model)
     {
         loadingTxt.UpdateTextInfoName(model.loadingTxtId);
