@@ -1,5 +1,8 @@
 Id,Path
 10001,Prefabs/SoundObject/TestBGM
 10002,Prefabs/SoundObject/TestSFX
+10003,Prefabs/SoundObject/Rifle_Fire
 20001,Prefabs/Character/Player
+30001,Prefabs/Character/Bot
 90001,Prefabs/Weapon/Rifle
+100002,Prefabs/BulletObject/7_62mm

@@ -17,8 +17,10 @@ public class GameModel
         LoadCSV<PrefabInfo>("PrefabList");
         LoadCSV<SkillInfo>("SkillList");
         LoadCSV<Player>("PlayerList");
-        LoadCSV<SpawnPointInfo>("SpawnPointList", true);
+        LoadCSV<Enemy>("EnemyList");
+        LoadCSV<SpawnPointInfo>("SpawnPointList");
         LoadCSV<GunInfo>("GunList");
+        LoadCSV<Bullet>("BulletList");
 
         ClientData.PlayerLanguage = LoadJson<PlayerLanguage>(ClientData.PlayerLanguageFileName);
         ClientData.PlayerSound = LoadJson<PlayerSound>(ClientData.PlayerSoundFileName);

@@ -71,7 +71,7 @@ namespace Akila.FPSFramework
         public CharacterManager characterManager { get; set; }
 
         public CharacterInput CharacterInput { get; private set; }
-        public PlayerInput playerInput { get; set; }
+        public InputSystem playerInput { get; set; }
 
         //input velocity
         private Vector3 desiredVelocityRef;
@@ -111,7 +111,7 @@ namespace Akila.FPSFramework
         protected virtual void Awake()
         {
             characterManager = GetComponent<CharacterManager>();
-            playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<InputSystem>();
             CharacterInput = GetComponent<CharacterInput>();
             Actor = GetComponent<Actor>();
             cameraManager = GetComponentInChildren<CameraManager>();

@@ -1,2 +1,2 @@
-Id,NoAimPosX,NoAimPosY,NoAimPosZ,NoAimRotX,NoAimRotY,NoAimRotZ,NoAimScale,AimPosX,AimPosY,AimPosZ,AimRotX,AimRotY,AimRotZ,AimScale
-90001,0,-0.925,0.002,0,0,0,0.03,-0.079,-0.736,-0.058,0,0.2,0,0.03
+Id,BulletId,SoundId,NoAimPosX,NoAimPosY,NoAimPosZ,AimPosX,AimPosY,AimPosZ
+90001,100002,10003,0,-0.925,0.002,-0.077,-0.736,-0.058
