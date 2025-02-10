@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 /// <summary>
 /// 모든 게임 컨트롤러를 모아놓은 클래스
@@ -105,12 +106,21 @@ public class CharacterController2 : BaseController
         // 캐릭터 데이터가 삭제되면 해당 캐릭터가 갖고 있던 총 데이터도 삭제
         character.OnDataRemove += (_data) => 
         {
-            if (characterObj.GunObject != null)
-            {
-                var gun = characterObj.GunObject.data as GunInfo;
-                gun.RemoveData();
-            }
+            if (characterObj.WeaponObject != null) characterObj.WeaponObject.data.RemoveData();
         };
+
+        var actorStatInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<ActorStatInfo>(nameof(ActorStatInfo), id);
+        character.BasicActorStat = actorStatInfo;
+
+        if (characterObj.TryGetComponent<HealthSystem>(out var healthSystem))
+        {
+            healthSystem.Init(actorStatInfo.MaxHp);
+
+            healthSystem.ChangeCurHpEvent += (hp) => 
+            {
+                if (hp <= 0) characterObj.OnDeath();    // 체력이 0이하이면 죽은 것으로 판정
+            };
+        }
 
         return characterObj as K;
     }
@@ -118,30 +128,57 @@ public class CharacterController2 : BaseController
 public class PlayerController : CharacterController2
 {
     public PlayerController(GameModel gameModel) : base(gameModel) {}
+
+    public override K Spawn<T, K>(int id, Vector3 position, Quaternion rotation, Transform parent = null)
+    {
+        var playerObj = base.Spawn<T, K>(id, position, rotation, parent) as PlayerObject;
+        // var player = playerObj.data as Player;
+
+        return playerObj as K;
+    }
 }
 public class EnemyController : CharacterController2
 {
     public EnemyController(GameModel gameModel) : base(gameModel) {}
 }
 
-public class GunController : BaseController
+public abstract class WeaponController : BaseController
+{
+    public WeaponController(GameModel gameModel) : base(gameModel) {} 
+
+    public virtual K Spawn<T, K>(int id, CharacterObject characterObj) where T : WeaponInfo where K : WeaponObject
+    {
+        var weaponObj = Spawn<T, K>(id, Vector3.zero, Quaternion.identity, characterObj.WeaponNode);
+        var weapon = weaponObj.data as T;
+
+        // 무기 데이터가 사라지면 무기 장착하고 있는 플레이어의 무기 오브젝트 데이터 삭제
+        // 무기 데이터가 사라지면 무기 오브젝트 데이터의 소유자 오브젝트 데이터 삭제
+        weapon.OnDataRemove += (data) => 
+        {
+            characterObj.WeaponObject = null;
+            weaponObj.OwnerObject = null;
+        };
+
+        weaponObj.OwnerObject = characterObj;
+        characterObj.WeaponObject = weaponObj;
+        return weaponObj;
+    }
+}
+public class GunController : WeaponController
 {
     public GunController(GameModel gameModel) : base(gameModel) {}
 
-    public K Spawn<T, K>(int id, CharacterObject characterObj) where T : GunInfo where K : GunObject
+    public override K Spawn<T, K>(int id, CharacterObject characterObj)
     {
-        var gunObj = Spawn<T, K>(id, Vector3.zero, Quaternion.identity, characterObj.GunNode);
-        var gun = gunObj.data as T;
+        var gunObj = base.Spawn<T, K>(id, characterObj) as GunObject;
+        var gun = gunObj.data as GunInfo;
 
-        // 총 데이터가 사라지면 해당 총을 장착하고 있는 플레이어의 총 오브젝트 데이터 삭제
-        gun.OnDataRemove += (data) => 
-        {
-            characterObj.GunObject = null;
-        };
+        var character = characterObj.data as Character;
+        gun.AimingTime = character.BasicActorStat.AimingTime;
 
-        characterObj.GunNode.transform.localPosition = gun.GetAimPos(false);
-        characterObj.GunObject = gunObj;
-        return gunObj;
+        characterObj.WeaponNode.transform.localPosition = gun.GetAimPos(false);
+        
+        return gunObj as K;
     }
 }
 
@@ -155,8 +192,13 @@ public class BulletController : BaseController
         var bullet = bulletObj.data as T;        
         bulletObj.transform.SetParent(null); // 소환된 후에는 총구 노드에 종속되면 안됨
 
+        bulletObj.HitEvent += () => 
+        {
+            gunObject.BlinkHitCanvas(0.1f);
+        };
+
         var gun = gunObject.data as GunInfo;
-        GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.SoundId, Vector3.zero, Quaternion.identity, gunObject.transform);
+        GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.ShotSoundId, Vector3.zero, Quaternion.identity, gunObject.transform);
 
         return bulletObj;
     }

@@ -8,8 +8,6 @@ using Newtonsoft.Json;
 
 public class GameManager : GlobalSingleton<GameManager>
 {
-    public bool IsPause { get; set; }   // 게임이 일시정지인지 체크
-
     // 게임 시작 시, 자동으로 생성
     [RuntimeInitializeOnLoadMethod]
     private static void Initializer()
@@ -21,48 +19,24 @@ public class GameManager : GlobalSingleton<GameManager>
         Pooling.Instance.Init();
     }
 
-    private void Start()
-    {
-        // test
-        // var language = GameApplication.Instance.GameModel.ClientData.PlayerLanguage.language;
-        // var textInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<TextInfo>(nameof(TextInfo), 1);
-        // string languageStr = "";
-        // switch (language)
-        // {
-        //     case TextInfo.LanguageTypes.English: languageStr = textInfo.NameEn; break;
-        //     default: languageStr = textInfo.NameKr; break;  // 한국어
-        // }
-        // Debug.Log(languageStr);
+    // private void Update()
+    // {
+    //     // if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.F4))
+    //     // {
+    //     //     QuitGame();
+    //     // }
 
-        // // test
-        // GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(10001, Vector3.zero, Quaternion.identity);
-
-        IsPause = false;
-    }
-
-    private void Update()
-    {
-        // if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.F4))
-        // {
-        //     QuitGame();
-        // }
-
-        // // test
-        // if (Input.GetKeyDown(KeyCode.Alpha1))
-        // {
-        //     GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(10002, Vector3.zero, Quaternion.identity);
-        // }
-        // if (Input.GetKeyDown(KeyCode.Alpha2))
-        // {
-        //     var soundInfos = GameApplication.Instance.GameModel.RuntimeData.ReturnDatas<SoundInfo>(nameof(SoundInfo));
-        //     if (soundInfos != null) Debug.Log(soundInfos.Length);
-        // }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            IsPause = !IsPause;
-        }
-    }
+    //     // // test
+    //     // if (Input.GetKeyDown(KeyCode.Alpha1))
+    //     // {
+    //     //     GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(10002, Vector3.zero, Quaternion.identity);
+    //     // }
+    //     // if (Input.GetKeyDown(KeyCode.Alpha2))
+    //     // {
+    //     //     var soundInfos = GameApplication.Instance.GameModel.RuntimeData.ReturnDatas<SoundInfo>(nameof(SoundInfo));
+    //     //     if (soundInfos != null) Debug.Log(soundInfos.Length);
+    //     // }
+    // }
 
     // 언어 변경
     public void ChanageLanauage(TextInfo.LanguageTypes language)

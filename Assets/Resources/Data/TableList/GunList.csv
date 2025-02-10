@@ -1,2 +1,2 @@
-Id,BulletId,SoundId,NoAimPosX,NoAimPosY,NoAimPosZ,AimPosX,AimPosY,AimPosZ
-90001,100002,10003,0,-0.925,0.002,-0.077,-0.736,-0.058
+Id,BulletId,ShotSoundId,ShotSpeed,NoAimPosX,NoAimPosY,NoAimPosZ,AimPosX,AimPosY,AimPosZ,MinVerReact,MaxVerReact,MinHorReact,MaxHorReact
+90001,100002,10003,0.9,0,-0.925,0.002,-0.077,-0.736,-0.058,-1,0,-0.1,0.1

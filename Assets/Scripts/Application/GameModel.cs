@@ -21,6 +21,7 @@ public class GameModel
         LoadCSV<SpawnPointInfo>("SpawnPointList");
         LoadCSV<GunInfo>("GunList");
         LoadCSV<Bullet>("BulletList");
+        LoadCSV<ActorStatInfo>("ActorStatList");
 
         ClientData.PlayerLanguage = LoadJson<PlayerLanguage>(ClientData.PlayerLanguageFileName);
         ClientData.PlayerSound = LoadJson<PlayerSound>(ClientData.PlayerSoundFileName);

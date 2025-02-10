@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Character : Entity
 {
-    // 스킬
-    public Skills Skills { get; set; }
+    public ActorStatInfo BasicActorStat { get; set; } // 기본 스탯    
+    public Skills Skills { get; set; }  // 스킬
 
     public override void Init(EntityObject myObject)
     {

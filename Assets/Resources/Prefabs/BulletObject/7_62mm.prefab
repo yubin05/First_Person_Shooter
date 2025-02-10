@@ -137,7 +137,7 @@ TrailRenderer:
     numCapVertices: 10
     alignment: 0
     textureMode: 0
-    textureScale: {x: 1, y: 1}
+    textureScale: {x: 0.05, y: 0.05}
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
@@ -238,6 +238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5533149664834043034}
   - component: {fileID: 4787907997520380780}
+  - component: {fileID: 8210498698496521604}
   m_Layer: 0
   m_Name: 7_62mm
   m_TagString: Untagged
@@ -255,8 +256,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.001, y: 0.001, z: 7.62}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5533149663480920785}
   - {fileID: 4318224737487219244}
@@ -274,3 +275,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95981db08f0768459891110f3bd8aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &8210498698496521604
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5533149664834043029}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}

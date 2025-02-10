@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class MoveState : BaseState
 {
-    public MoveState(CharacterObject characterObject) : base(characterObject) {}
+    public MoveState(MotionHandler motionHandler) : base(motionHandler) {}
 
-    public override void OnStateEnter(CharacterObject characterObject)
+    public override void OnStateEnter(MotionHandler motionHandler)
     {
-        characterObject.MotionHandler.StartMove();
+        motionHandler.StartMove();
     }
 
-    public override void OnStateUpdate(CharacterObject characterObject)
+    public override void OnStateUpdate(MotionHandler motionHandler)
     {
     }
 
-    public override void OnStateExit(CharacterObject characterObject)
+    public override void OnStateExit(MotionHandler motionHandler)
     {
     }
 }

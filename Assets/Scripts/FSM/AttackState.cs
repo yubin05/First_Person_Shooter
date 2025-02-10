@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class AttackState : BaseState
 {
-    public AttackState(CharacterObject characterObject) : base(characterObject) {}
+    public AttackState(MotionHandler motionHandler) : base(motionHandler) {}
     
-    public override void OnStateEnter(CharacterObject characterObject)
+    public override void OnStateEnter(MotionHandler motionHandler)
     {
     }
 
-    public override void OnStateUpdate(CharacterObject characterObject)
+    public override void OnStateUpdate(MotionHandler motionHandler)
     {
     }
 
-    public override void OnStateExit(CharacterObject characterObject)
+    public override void OnStateExit(MotionHandler motionHandler)
     {
     }
 }
