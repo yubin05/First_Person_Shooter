@@ -1,7 +1,8 @@
 Id,Path
 10001,Prefabs/SoundObject/TestBGM
 10002,Prefabs/SoundObject/TestSFX
-10003,Prefabs/SoundObject/Rifle_Fire
+10003,Prefabs/SoundObject/Gun_Fire
+10004,Prefabs/SoundObject/Gun_Reload
 20001,Prefabs/Character/Player
 20002,Prefabs/Character/Amy
 30001,Prefabs/Character/Bot

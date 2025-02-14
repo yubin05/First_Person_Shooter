@@ -57,6 +57,8 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
 
     public void OnShot(InputAction.CallbackContext context)
     {
+        if (BattleFieldScene.Instance.IsPause) return;
+        
         if (gunObject.ShotMode == GunObject.ShotModes.SemiAuto)
         {
             var gun = gunObject.data as GunInfo;
@@ -83,6 +85,16 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
         {
             if (gunObject is RifleObject) (gunObject as RifleObject).ChangeShotMode();
             else if (gunObject is PistolObject) (gunObject as PistolObject).ChangeShotMode();
+        }
+    }
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if (BattleFieldScene.Instance.IsPause) return;
+
+        var inputValue = context.ReadValue<float>();
+        if (inputValue == 0)
+        {
+            gunObject.Reload();
         }
     }
 }

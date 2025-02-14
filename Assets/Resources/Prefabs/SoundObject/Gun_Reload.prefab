@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7656391455518985560}
   - component: {fileID: 7656391455518985639}
   m_Layer: 0
-  m_Name: Rifle_Fire
+  m_Name: Gun_Reload
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5da18d6eca13db543b76729f309ad7c2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 395de6b5d63f5f3428aaf5dfdf370f3a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1

@@ -145,6 +145,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""b546894d-3a77-42fa-b84d-df2db6eb44c4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -178,6 +187,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Aiming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44f4afe1-c3c3-4306-900e-16330adeb34d"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -229,6 +249,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_BattleField_Gun_Shot = m_BattleField_Gun.FindAction("Shot", throwIfNotFound: true);
         m_BattleField_Gun_Aiming = m_BattleField_Gun.FindAction("Aiming", throwIfNotFound: true);
         m_BattleField_Gun_ShotMode = m_BattleField_Gun.FindAction("ShotMode", throwIfNotFound: true);
+        m_BattleField_Gun_Reload = m_BattleField_Gun.FindAction("Reload", throwIfNotFound: true);
         // BattleField_Setting
         m_BattleField_Setting = asset.FindActionMap("BattleField_Setting", throwIfNotFound: true);
         m_BattleField_Setting_Pause = m_BattleField_Setting.FindAction("Pause", throwIfNotFound: true);
@@ -357,6 +378,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_BattleField_Gun_Shot;
     private readonly InputAction m_BattleField_Gun_Aiming;
     private readonly InputAction m_BattleField_Gun_ShotMode;
+    private readonly InputAction m_BattleField_Gun_Reload;
     public struct BattleField_GunActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -364,6 +386,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Shot => m_Wrapper.m_BattleField_Gun_Shot;
         public InputAction @Aiming => m_Wrapper.m_BattleField_Gun_Aiming;
         public InputAction @ShotMode => m_Wrapper.m_BattleField_Gun_ShotMode;
+        public InputAction @Reload => m_Wrapper.m_BattleField_Gun_Reload;
         public InputActionMap Get() { return m_Wrapper.m_BattleField_Gun; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -382,6 +405,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @ShotMode.started += instance.OnShotMode;
             @ShotMode.performed += instance.OnShotMode;
             @ShotMode.canceled += instance.OnShotMode;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IBattleField_GunActions instance)
@@ -395,6 +421,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @ShotMode.started -= instance.OnShotMode;
             @ShotMode.performed -= instance.OnShotMode;
             @ShotMode.canceled -= instance.OnShotMode;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IBattleField_GunActions instance)
@@ -477,6 +506,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnShot(InputAction.CallbackContext context);
         void OnAiming(InputAction.CallbackContext context);
         void OnShotMode(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IBattleField_SettingActions
     {

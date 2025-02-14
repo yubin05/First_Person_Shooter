@@ -212,7 +212,7 @@ public class BulletController : BaseController
 
         bulletObj.HitEvent += () => 
         {
-            gunObject.BlinkHitCanvas(0.1f);
+            gunObject.WeaponHUD.BlinkHitCanvas(0.1f);
         };
 
         var gun = gunObject.data as GunInfo;

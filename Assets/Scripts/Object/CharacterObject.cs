@@ -13,6 +13,7 @@ public class CharacterObject : EntityObject, IDamageable
 
     public MotionHandler MotionHandler { get; protected set; }
     public FSM FSM { get; protected set; }
+    
 
     public WeaponObject WeaponObject { get; set; }    // 현재 플레이어가 장착하고 있는 무기
 
@@ -36,18 +37,19 @@ public class CharacterObject : EntityObject, IDamageable
         var character = data as Character;
         character.Init(this);
 
+        MotionHandler.Init();
         FSM = new FSM(MotionHandler);
     }
 
     // 가만히 있습니다.
     public virtual void OnIdle()
     {
-        if (!MotionHandler.IsAttack) FSM.ChangeState(new IdleState(MotionHandler));
+        if (!MotionHandler.IsAttack && !MotionHandler.IsReload) FSM.ChangeState(new IdleState(MotionHandler));
     }
 
     public virtual void OnMove(Vector3 moveVec)
     {
-        if (!MotionHandler.IsAttack) FSM.ChangeState(new MoveState(MotionHandler));
+        if (!MotionHandler.IsAttack && !MotionHandler.IsReload) FSM.ChangeState(new MoveState(MotionHandler));
         transform.Translate(moveVec, Space.Self);
     }
 
@@ -55,6 +57,15 @@ public class CharacterObject : EntityObject, IDamageable
     public virtual void OnAttack()
     {
         if (WeaponObject == null) return;
+        if (WeaponObject is GunObject)
+        {
+            var gunObject = WeaponObject as GunObject;
+            if (gunObject.MotionHandler.IsReload) return;
+
+            var gun = gunObject.data as GunInfo;
+            if (gun.CurMagazineCapacity <= 0) return;
+        }
+
         FSM.ChangeState(new AttackState(MotionHandler));
 
         WeaponObject.Attack();
