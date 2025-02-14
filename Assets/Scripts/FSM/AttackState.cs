@@ -8,6 +8,7 @@ public class AttackState : BaseState
     
     public override void OnStateEnter(MotionHandler motionHandler)
     {
+        motionHandler.StartAttack();
     }
 
     public override void OnStateUpdate(MotionHandler motionHandler)

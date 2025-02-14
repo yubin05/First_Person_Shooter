@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletObject : EntityObject, ICollider
+public class BulletObject : EntityObject
 {
     public event Action HitEvent;
 
@@ -17,23 +17,16 @@ public class BulletObject : EntityObject, ICollider
     {
         var bullet = data as Bullet;
         transform.Translate(Vector3.forward*bullet.MoveSpeed, Space.Self);
-    }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        var damageSystem = other.GetComponentInParent<DamageSystem>();
-        if (damageSystem != null)
+        // 히트 스캔의 경우, 오브젝트가 타겟 위치 근처에 도착 시, 삭제
+        if (bullet.Type == Bullet.Types.HitScan)
         {
-            var bullet = data as Bullet;
-            
-            damageSystem.OnHit(bullet.AttackPower);
-            HitEvent?.Invoke();
-            
-            bullet.RemoveData();    // 한번 히트하면 사라져야 함 (관통탄은 추후에 예외 처리)
+            if (Vector3.Distance(transform.position, bullet.TargetPos) <= 2f)
+            {
+                bullet.RemoveData();
+            }
         }
     }
 
-    public void OnTriggerExit(Collider other)
-    {
-    }
+    public void ExecuteHitEvent() => HitEvent?.Invoke();
 }

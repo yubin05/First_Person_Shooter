@@ -6,9 +6,14 @@ using UnityEngine.InputSystem;
 public class PlayerInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_PlayerActions
 {
     [SerializeField] private PlayerObject playerObj;
-    [SerializeField] private Camera playerCam;
+    [SerializeField] private Transform upperBodyTrans;
 
     private PlayerInputAction inputAction;
+    
+    // temp
+    private Vector3 inputRotVector;
+    private float xSensitivity = 0.1f;
+    private float ySensitivity = 0.1f;
 
     private void Awake()
     {
@@ -30,14 +35,26 @@ public class PlayerInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_P
         // 이동
         var inputMoveVector = inputAction.BattleField_Player.Move.ReadValue<Vector2>();
         var moveVector = new Vector3(inputMoveVector.x, 0, inputMoveVector.y);
-        playerObj.OnMove(moveVector * player.BasicActorStat.MoveSpeed * Time.deltaTime);
+        if (moveVector != Vector3.zero) playerObj.OnMove(moveVector * player.BasicActorStat.MoveSpeed * Time.deltaTime);
+        else playerObj.OnIdle();
 
         // 회전
-        var inputRotVector = inputAction.BattleField_Player.Look.ReadValue<Vector2>();
-        var rotVector = new Vector2(-(inputRotVector.y*0.1f), inputRotVector.x*0.1f);
-        playerObj.transform.Rotate(0, rotVector.y, 0);
-        playerCam.transform.Rotate(rotVector.x, 0, 0);
+        inputRotVector = inputAction.BattleField_Player.Look.ReadValue<Vector2>();
+        inputRotVector.x *= xSensitivity; inputRotVector.y *= ySensitivity;
+        playerObj.transform.Rotate(0, inputRotVector.x, 0);
+        playerObj.Cam.transform.RotateAround(upperBodyTrans.transform.position, playerObj.transform.right, -inputRotVector.y);        
     }
+    // private void LateUpdate()
+    // {
+    //     // 회전 - 애니메이터로 인해 Update문에서는 회전이 Block되는 문제 있음
+    //     upperBodyTrans.transform.RotateAround(upperBodyTrans.position, playerObj.transform.right, -inputRotVector.y);
+    // }
+
+    // private void OnAnimatorMove()
+    // {
+    //     // 회전 - 애니메이터로 인해 Update문에서는 회전이 Block되는 문제 있음
+    //     upperBodyTrans.transform.Rotate(0, 0, -inputRotVector.y);
+    // }
 
     private void OnDisable()
     {

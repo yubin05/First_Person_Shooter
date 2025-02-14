@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunActions
 {
-    [SerializeField] private GunObject gunObject;
+    [SerializeField] protected GunObject gunObject;
 
     private PlayerInputAction inputAction;
     private float shotDelayTime;
@@ -32,8 +32,7 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
         // 공격
         if (gunObject.ShotMode == GunObject.ShotModes.Auto)
         {
-            var shotSpeed = Mathf.Clamp(1f-gun.ShotSpeed, 0.01f, 1f-0.01f);
-            if (shotDelayTime > 0.1f)
+            if (shotDelayTime > gun.ShotDelay)
             {
                 var inputAttackValue = inputAction.BattleField_Gun.Shot.ReadValue<float>();
                 if (inputAttackValue == 1f)
@@ -46,9 +45,9 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
         shotDelayTime += Time.deltaTime;
 
         // 조준
-        var inputAimingValue = inputAction.BattleField_Gun.Aiming.ReadValue<float>();
-        if (inputAimingValue == 1f) gunObject.OwnerObject.OnAiming(true, gun.AimingTime);
-        else gunObject.OwnerObject.OnAiming(false, gun.AimingTime);
+        // var inputAimingValue = inputAction.BattleField_Gun.Aiming.ReadValue<float>();
+        // if (inputAimingValue == 1f) gunObject.OwnerObject.OnAiming(true, gun.AimingTime);
+        // else gunObject.OwnerObject.OnAiming(false, gun.AimingTime);
     }
 
     private void OnDisable()
@@ -60,8 +59,16 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
     {
         if (gunObject.ShotMode == GunObject.ShotModes.SemiAuto)
         {
-            var inputValue = context.ReadValue<float>();
-            if (inputValue == 1f) gunObject.OwnerObject.OnAttack();
+            var gun = gunObject.data as GunInfo;
+            if (shotDelayTime > gun.ShotDelay)
+            {
+                var inputValue = context.ReadValue<float>();
+                if (inputValue == 1f)
+                {
+                    gunObject.OwnerObject.OnAttack();
+                    shotDelayTime = 0f;
+                }
+            }            
         }
     }
     public void OnAiming(InputAction.CallbackContext context)
@@ -74,9 +81,8 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
         var inputValue = context.ReadValue<float>();
         if (inputValue == 0)
         {
-            int index = (int)gunObject.ShotMode;
-            if (++index >= Enum.GetValues(typeof(GunObject.ShotModes)).Length) index = 0;
-            gunObject.ShotMode = (GunObject.ShotModes)index;
+            if (gunObject is RifleObject) (gunObject as RifleObject).ChangeShotMode();
+            else if (gunObject is PistolObject) (gunObject as PistolObject).ChangeShotMode();
         }
     }
 }

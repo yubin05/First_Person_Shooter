@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,17 +35,44 @@ public class GunObject : WeaponObject
     public override void Attack()
     {
         var gun = data as GunInfo;
+
+        // 레이캐스트로 대상 체크
+        bool isHit = Physics.Raycast(OwnerObject.Cam.transform.position, OwnerObject.Cam.transform.forward, out RaycastHit hit, gun.Distance, LayerMask.GetMask(nameof(Player), nameof(Obstacle)));
+        Vector3 targetPos = isHit ? hit.point : OwnerObject.Cam.transform.position + OwnerObject.Cam.transform.forward*gun.Distance;        
         
-        GameApplication.Instance.GameController.BulletController.Spawn<Bullet, BulletObject>(gun.BulletId, this);   // 총알 소환
+        var bulletObj = GameApplication.Instance.GameController.BulletController.Spawn<Bullet, BulletObject>(gun.BulletId, this, targetPos);   // 총알 소환
+        var bullet = bulletObj.data as Bullet;
+
+        // 히트 스캔의 경우, 건 오브젝트에서 즉시 대미지 처리해도 차이 없음
+        if (bullet.Type == Bullet.Types.HitScan)
+        {
+            if (isHit)
+            {
+                var damageSystem = hit.transform.GetComponentInParent<DamageSystem>();
+                if (damageSystem != null)
+                {
+                    damageSystem.OnHit(bullet.AttackPower);
+                    bulletObj.ExecuteHitEvent();
+                }
+            }
+        }
+
         ShotEvent?.Invoke();
     }
     // 조준
-    public override void Aiming(Transform weaponNode, bool isAiming, float aimTime)
-    {
-        var gun = data as GunInfo;
+    // public override void Aiming(bool isAiming, float aimTime)
+    // {
+    //     var gun = data as GunInfo;
 
-        weaponNode.transform.DOLocalMove(gun.GetAimPos(isAiming), aimTime);
-        AimCanvasGroup.DOFade(isAiming ? 0f : 1f, 0.1f);
+    //     AimCanvasGroup.DOFade(isAiming ? 0f : 1f, 0.1f);
+    // }
+
+    // 발사 모드 변경
+    public virtual void ChangeShotMode()
+    {
+        int index = (int)ShotMode;
+        if (++index >= Enum.GetValues(typeof(ShotModes)).Length) index = 0;
+        ShotMode = (ShotModes)index;
     }
 
     public void BlinkHitCanvas(float delayTime)

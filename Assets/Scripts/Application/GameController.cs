@@ -140,6 +140,24 @@ public class PlayerController : CharacterController2
 public class EnemyController : CharacterController2
 {
     public EnemyController(GameModel gameModel) : base(gameModel) {}
+
+    public K Spawn<T, K>(int id, int spawnPointId, Transform parent=null) where T : Enemy where K : EnemyObject
+    {
+        var spawnPointInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<SpawnPointInfo>(nameof(SpawnPointInfo), spawnPointId);
+
+        var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
+        var rot = Quaternion.Euler(new Vector3(spawnPointInfo.RotationX, spawnPointInfo.RotationY, spawnPointInfo.RotationZ));
+
+        var enemyObj = base.Spawn<T, K>(id, pos, rot, parent);
+        var enemy = enemyObj.data as T;
+
+        enemy.OnDataRemove += (data) => 
+        {
+            if (BattleFieldScene.Instance != null) BattleFieldScene.Instance.StartCoroutine(BattleFieldScene.Instance.RespawnEnemy(id, spawnPointId, enemy.RespawnTime));
+        };
+
+        return enemyObj;
+    }
 }
 
 public abstract class WeaponController : BaseController
@@ -175,8 +193,6 @@ public class GunController : WeaponController
 
         var character = characterObj.data as Character;
         gun.AimingTime = character.BasicActorStat.AimingTime;
-
-        characterObj.WeaponNode.transform.localPosition = gun.GetAimPos(false);
         
         return gunObj as K;
     }
@@ -186,11 +202,13 @@ public class BulletController : BaseController
 {
     public BulletController(GameModel gameModel) : base(gameModel) {}
 
-    public K Spawn<T, K>(int id, GunObject gunObject) where T : Bullet where K : BulletObject
+    public K Spawn<T, K>(int id, GunObject gunObject, Vector3 targetPos) where T : Bullet where K : BulletObject
     {
         var bulletObj = Spawn<T, K>(id, Vector3.zero, Quaternion.identity, gunObject.MuzzleNode);
-        var bullet = bulletObj.data as T;        
+        var bullet = bulletObj.data as T;
+
         bulletObj.transform.SetParent(null); // 소환된 후에는 총구 노드에 종속되면 안됨
+        bulletObj.transform.LookAt(targetPos);
 
         bulletObj.HitEvent += () => 
         {

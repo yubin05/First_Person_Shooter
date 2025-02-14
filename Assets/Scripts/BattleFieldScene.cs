@@ -33,30 +33,32 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
 
     private void SpawnPlayer()
     {
-        int playerId = 20001;
+        int playerId = 20002;
         var spawnPointInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<SpawnPointInfo>(nameof(SpawnPointInfo), 110001);
 
         var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
         var rot = Quaternion.Euler(new Vector3(spawnPointInfo.RotationX, spawnPointInfo.RotationY, spawnPointInfo.RotationZ));
         
+        int gunId = 90002;
         var playerObj = GameApplication.Instance.GameController.PlayerController.Spawn<Player, PlayerObject>(playerId, pos, rot);
-        GameApplication.Instance.GameController.GunController.Spawn<GunInfo, RifleObject>(90001, playerObj);
+        GameApplication.Instance.GameController.GunController.Spawn<GunInfo, GunObject>(gunId, playerObj);
     }
 
     private void SpawnEnemy()
     {
-        int botCount = Random.Range(1, 10);
-        for (int i=0; i<botCount; i++)
+        var spawnPointInfos = GameApplication.Instance.GameModel.PresetData.ReturnDatas<SpawnPointInfo>(nameof(SpawnPointInfo));
+        for (int i=1; i<spawnPointInfos.Length; i++)
         {
             int botId = 30001;
-            int spawnPointId = Random.Range(110002, 110010);
-            var spawnPointInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<SpawnPointInfo>(nameof(SpawnPointInfo), spawnPointId);
+            int spawnPointId = spawnPointInfos[i].Id;
 
-            var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
-            var rot = Quaternion.Euler(new Vector3(spawnPointInfo.RotationX, spawnPointInfo.RotationY, spawnPointInfo.RotationZ));
-
-            var botObj = GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(botId, pos, rot);
+            GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(botId, spawnPointId);
         }
+    }
+    public IEnumerator RespawnEnemy(int id, int spawnPointId, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        var botObj = GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(id, spawnPointId);
     }
 
     private void OnDisable()

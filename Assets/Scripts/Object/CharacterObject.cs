@@ -7,6 +7,9 @@ public class CharacterObject : EntityObject, IDamageable
 {
     [SerializeField] protected Animator animator;
     public Animator Animator => animator;
+    
+    [SerializeField] protected Camera cam;
+    public Camera Cam => cam;
 
     public MotionHandler MotionHandler { get; protected set; }
     public FSM FSM { get; protected set; }
@@ -39,12 +42,12 @@ public class CharacterObject : EntityObject, IDamageable
     // 가만히 있습니다.
     public virtual void OnIdle()
     {
-        FSM.ChangeState(new IdleState(MotionHandler));
+        if (!MotionHandler.IsAttack) FSM.ChangeState(new IdleState(MotionHandler));
     }
 
     public virtual void OnMove(Vector3 moveVec)
     {
-        FSM.ChangeState(new MoveState(MotionHandler));
+        if (!MotionHandler.IsAttack) FSM.ChangeState(new MoveState(MotionHandler));
         transform.Translate(moveVec, Space.Self);
     }
 
@@ -58,13 +61,13 @@ public class CharacterObject : EntityObject, IDamageable
     }
 
     // 조준
-    public virtual void OnAiming(bool isAiming, float aimTime)
-    {
-        if (WeaponObject == null) return;
-        FSM.ChangeState(new AimState(MotionHandler));
+    // public virtual void OnAiming(bool isAiming, float aimTime)
+    // {
+    //     if (WeaponObject == null) return;
+    //     FSM.ChangeState(new AimState(MotionHandler));
 
-        WeaponObject.Aiming(WeaponNode, isAiming, aimTime);
-    }
+    //     WeaponObject.Aiming(isAiming, aimTime);
+    // }
 
     // 피격
     public virtual void OnHit(float attackPower)

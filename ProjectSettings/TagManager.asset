@@ -12,8 +12,8 @@ TagManager:
   - No Player Collision
   - Water
   - UI
-  - 
-  - 
+  - Obstacle
+  - Enemy
   - Player
   - Hidden
   - Stencil
