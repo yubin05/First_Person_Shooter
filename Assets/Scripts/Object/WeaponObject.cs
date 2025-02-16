@@ -39,5 +39,4 @@ public abstract class WeaponObject : EntityObject
     }
     
     public abstract void Attack();  // 공격
-    // public abstract void Aiming(bool isAiming, float aimTime);  // 조준
 }

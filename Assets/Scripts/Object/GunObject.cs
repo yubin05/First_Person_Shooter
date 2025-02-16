@@ -75,16 +75,26 @@ public class GunObject : WeaponObject
 
         ShotEvent?.Invoke();
     }
-    // 조준
-    // public override void Aiming(bool isAiming, float aimTime)
-    // {
-    //     var gun = data as GunInfo;
 
-    //     AimCanvasGroup.DOFade(isAiming ? 0f : 1f, 0.1f);
-    // }
+    // 조준
+    public void Aiming(bool isAiming)
+    {
+        var gun = data as GunInfo;
+
+        // 캐릭터 오브젝트 조준 모드 - 손 오브젝트 위치 조정 포함
+        OwnerObject.OnAiming(isAiming);
+        
+        var character = OwnerObject.data as Character;
+        // 카메라 줌
+        if (isAiming) OwnerObject.Cam.DOFieldOfView(gun.ZoomFieldOfView, character.BasicActorStat.AimingTime);
+        else OwnerObject.Cam.DOFieldOfView(gun.NoZoomFieldOfView, character.BasicActorStat.AimingTime);
+
+        // 조준선 UI FadeIn/FadeOut
+        WeaponHUD.AimCanvasGroup.DOFade(isAiming ? 0f : 1f, 0.1f);
+    }
 
     // 재장전
-    public virtual void Reload()
+    public void Reload()
     {
         var gun = data as GunInfo;
         if (gun.CurMagazineCapacity >= gun.MagazineCapacity || gun.ReserveAmmo <= 0) return;
@@ -93,13 +103,5 @@ public class GunObject : WeaponObject
         FSM.ChangeState(new ReloadState(MotionHandler));
         
         GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.ReloadSoundId, Vector3.zero, Quaternion.identity, transform);
-    }
-
-    // 발사 모드 변경
-    public virtual void ChangeShotMode()
-    {
-        int index = (int)ShotMode;
-        if (++index >= Enum.GetValues(typeof(ShotModes)).Length) index = 0;
-        ShotMode = (ShotModes)index;
     }
 }

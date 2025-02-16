@@ -17,6 +17,9 @@ public class MotionHandler : MonoBehaviour
     public bool IsReload { get; private set; }
     public event Action ReloadEvent;
 
+    public bool IsAiming { get; private set; }
+    public event Action AimingEvent;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -32,6 +35,9 @@ public class MotionHandler : MonoBehaviour
 
         IsReload = false;
         ReloadEvent = null;
+
+        IsAiming = false;
+        AimingEvent = null;
     }
 
     // 이동 시작
@@ -88,5 +94,23 @@ public class MotionHandler : MonoBehaviour
     {
         IsReload = false;
         animator.SetBool(nameof(IsReload), IsReload);
+    }
+
+    // 조준 시작
+    public void StartAiming()
+    {
+        IsAiming = true;
+        animator.SetBool(nameof(IsAiming), IsAiming);
+    }
+    // 조준 이벤트
+    public void OnAiming()
+    {
+        AimingEvent?.Invoke();
+    }
+    // 조준 끝
+    public void EndAiming()
+    {
+        IsAiming = false;
+        animator.SetBool(nameof(IsAiming), IsAiming);
     }
 }

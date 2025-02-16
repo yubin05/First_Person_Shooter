@@ -116,15 +116,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ShotMode",
-                    "type": "Button",
-                    "id": "1a7685c8-acce-47e1-bcb2-c4503012eedc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "b546894d-3a77-42fa-b84d-df2db6eb44c4",
@@ -135,17 +126,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "cc77cb21-9256-4a7c-bc67-79e955eb5a00",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "ShotMode",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "5fd4cc7a-a9e7-4ec7-a948-87ef774d3950",

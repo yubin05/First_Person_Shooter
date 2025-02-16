@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_PlayerActions
 {
     [SerializeField] private PlayerObject playerObj;
-    [SerializeField] private Transform upperBodyTrans;
 
     private PlayerInputAction inputAction;
     
-    // temp
-    private Vector3 inputRotVector;
+    // TODO: 추후 설정을 통해 해당 값을 변경할 수 있도록 함으로써 하드 코딩 해제해야 함
     private float xSensitivity = 0.1f;
     private float ySensitivity = 0.1f;
 
@@ -39,22 +38,11 @@ public class PlayerInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_P
         else playerObj.OnIdle();
 
         // 회전
-        inputRotVector = inputAction.BattleField_Player.Look.ReadValue<Vector2>();
+        var inputRotVector = inputAction.BattleField_Player.Look.ReadValue<Vector2>();
         inputRotVector.x *= xSensitivity; inputRotVector.y *= ySensitivity;
         playerObj.transform.Rotate(0, inputRotVector.x, 0);
-        playerObj.Cam.transform.RotateAround(upperBodyTrans.transform.position, playerObj.transform.right, -inputRotVector.y);        
+        playerObj.Cam.transform.Rotate(-inputRotVector.y, 0, 0);
     }
-    // private void LateUpdate()
-    // {
-    //     // 회전 - 애니메이터로 인해 Update문에서는 회전이 Block되는 문제 있음
-    //     upperBodyTrans.transform.RotateAround(upperBodyTrans.position, playerObj.transform.right, -inputRotVector.y);
-    // }
-
-    // private void OnAnimatorMove()
-    // {
-    //     // 회전 - 애니메이터로 인해 Update문에서는 회전이 Block되는 문제 있음
-    //     upperBodyTrans.transform.Rotate(0, 0, -inputRotVector.y);
-    // }
 
     private void OnDisable()
     {

@@ -8,6 +8,7 @@ public class AimState : BaseState
 
     public override void OnStateEnter(MotionHandler motionHandler)
     {
+        motionHandler.StartAiming();
     }
 
     public override void OnStateUpdate(MotionHandler motionHandler)
@@ -16,5 +17,6 @@ public class AimState : BaseState
 
     public override void OnStateExit(MotionHandler motionHandler)
     {
+        motionHandler.EndAiming();
     }
 }

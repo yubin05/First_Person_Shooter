@@ -10,8 +10,4 @@ public class PistolObject : GunObject
 
         ShotMode = ShotModes.SemiAuto;
     }
-
-    public new void ChangeShotMode()
-    {
-    }
 }

@@ -33,13 +33,13 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
 
     private void SpawnPlayer()
     {
-        int playerId = 20002;
+        int playerId = 20001;
         var spawnPointInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<SpawnPointInfo>(nameof(SpawnPointInfo), 110001);
 
         var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
         var rot = Quaternion.Euler(new Vector3(spawnPointInfo.RotationX, spawnPointInfo.RotationY, spawnPointInfo.RotationZ));
         
-        int gunId = 90002;
+        int gunId = 90001;
         var playerObj = GameApplication.Instance.GameController.PlayerController.Spawn<Player, PlayerObject>(playerId, pos, rot);
         GameApplication.Instance.GameController.GunController.Spawn<GunInfo, GunObject>(gunId, playerObj);
     }

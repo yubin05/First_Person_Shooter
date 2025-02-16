@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunActions
 {
     [SerializeField] protected GunObject gunObject;
@@ -45,9 +46,22 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
         shotDelayTime += Time.deltaTime;
 
         // 조준
-        // var inputAimingValue = inputAction.BattleField_Gun.Aiming.ReadValue<float>();
-        // if (inputAimingValue == 1f) gunObject.OwnerObject.OnAiming(true, gun.AimingTime);
-        // else gunObject.OwnerObject.OnAiming(false, gun.AimingTime);
+        if (!gunObject.MotionHandler.IsReload)
+        {
+            var inputAimingValue = inputAction.BattleField_Gun.Aiming.ReadValue<float>();
+            if (inputAimingValue == 1f)
+            {
+                gunObject.Aiming(true);
+            }
+            else
+            {
+                gunObject.Aiming(false);
+            }            
+        }
+        else
+        {
+            gunObject.Aiming(false);
+        }
     }
 
     private void OnDisable()
@@ -76,20 +90,10 @@ public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunA
     public void OnAiming(InputAction.CallbackContext context)
     {
     }
-    public void OnShotMode(InputAction.CallbackContext context)
-    {
-        if (BattleFieldScene.Instance.IsPause) return;
-
-        var inputValue = context.ReadValue<float>();
-        if (inputValue == 0)
-        {
-            if (gunObject is RifleObject) (gunObject as RifleObject).ChangeShotMode();
-            else if (gunObject is PistolObject) (gunObject as PistolObject).ChangeShotMode();
-        }
-    }
     public void OnReload(InputAction.CallbackContext context)
     {
         if (BattleFieldScene.Instance.IsPause) return;
+        if (gunObject.MotionHandler.IsReload) return;
 
         var inputValue = context.ReadValue<float>();
         if (inputValue == 0)

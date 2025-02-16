@@ -15,12 +15,17 @@ public class GunInfo : WeaponInfo
     public float MaxVerBulletSpread { get; set; }
     public float MinHorBulletSpread { get; set; }
     public float MaxHorBulletSpread { get; set; }
+    public int HasAimingMode { get; set; }
+    public float AimRate { get; set; }
 
     // 외부에서 Set하는 변수들
     public float AimingTime { get; set; }
-    public float ShotDelay => Mathf.Clamp(1f-ShotSpeed, 0.01f, 1f-0.01f);
+    private float MinShotSpeed { get; } = 0.01f; private float MaxShotSpeed { get; } = 1f;
+    public float ShotDelay => Mathf.Clamp(MaxShotSpeed-ShotSpeed, MinShotSpeed, MaxShotSpeed-MinShotSpeed);
     public int CurMagazineCapacity { get; private set; }    // 현재 탄창의 남아있는 총알 수
-    public int ReserveAmmo { get; private set; }    // 전체적으로 남아있는 총알 수
+    public int ReserveAmmo { get; private set; }    // 전체적으로 남아있는 총알 수    
+    public float NoZoomFieldOfView { get; set; }    // 조준하지 않았을 때, 캐릭터의 카메라 시야각
+    public float ZoomFieldOfView { get; set; }    // 조준했을 때, 캐릭터의 카메라 시야각
 
     public override void Init(EntityObject myObject)
     {
