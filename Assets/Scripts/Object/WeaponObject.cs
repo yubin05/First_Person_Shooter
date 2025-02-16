@@ -12,8 +12,7 @@ public abstract class WeaponObject : EntityObject
     public WeaponHUD WeaponHUD => weaponHUD;
 
     public MotionHandler MotionHandler { get; protected set; }
-    public FSM FSM { get; protected set; }
-    
+    public FSM FSM { get; protected set; }    
 
     protected MeshRenderer[] meshRenderers;
     public CharacterObject OwnerObject { get; set; }

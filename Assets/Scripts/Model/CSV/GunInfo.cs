@@ -11,10 +11,10 @@ public class GunInfo : WeaponInfo
     public int ReloadSoundId { get; set; }
     public int MagazineCapacity { get; set; }
     public int TotalAmmo { get; set; }
-    public float MinVerReact { get; set; }
-    public float MaxVerReact { get; set; }
-    public float MinHorReact { get; set; }
-    public float MaxHorReact { get; set; }    
+    public float MinVerBulletSpread { get; set; }
+    public float MaxVerBulletSpread { get; set; }
+    public float MinHorBulletSpread { get; set; }
+    public float MaxHorBulletSpread { get; set; }
 
     // 외부에서 Set하는 변수들
     public float AimingTime { get; set; }

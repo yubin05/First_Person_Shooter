@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletObject : EntityObject
+public class BulletObject : EntityObject/* , ICollider */
 {
     public event Action HitEvent;
 
@@ -27,6 +27,22 @@ public class BulletObject : EntityObject
             }
         }
     }
+
+    // public void OnTriggerEnter(Collider other)
+    // {
+    //     var bullet = data as Bullet;
+
+    //     var damageSystem = other.transform.GetComponentInParent<DamageSystem>();
+    //     if (damageSystem != null)
+    //     {
+    //         damageSystem.OnHit(bullet.AttackPower);
+    //         HitEvent?.Invoke();
+    //     }
+    //     bullet.RemoveData();
+    // }
+    // public void OnTriggerExit(Collider other)
+    // {
+    // }
 
     public void ExecuteHitEvent() => HitEvent?.Invoke();
 }

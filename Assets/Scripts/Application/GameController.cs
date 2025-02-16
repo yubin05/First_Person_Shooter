@@ -193,6 +193,16 @@ public class GunController : WeaponController
 
         var character = characterObj.data as Character;
         gun.AimingTime = character.BasicActorStat.AimingTime;
+
+        // 격발 시, 반동 시스템의 반동 기능 작동
+        var reactionSystem = characterObj.Cam.transform.GetComponent<ReactionSystem>();
+        if (reactionSystem != null)
+        {
+            gunObj.ShotEvent += () => 
+            {
+                reactionSystem.React();
+            };
+        }
         
         return gunObj as K;
     }

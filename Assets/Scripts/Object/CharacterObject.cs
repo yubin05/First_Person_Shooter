@@ -12,12 +12,15 @@ public class CharacterObject : EntityObject, IDamageable
     public Camera Cam => cam;
 
     public MotionHandler MotionHandler { get; protected set; }
-    public FSM FSM { get; protected set; }
-    
+    public FSM FSM { get; protected set; }    
 
     public WeaponObject WeaponObject { get; set; }    // 현재 플레이어가 장착하고 있는 무기
 
     public HealthSystem HealthSystem { get; set; }
+
+    // 캐릭터 오브젝트가 움직이고 있는 지 체크
+    // -> MotionHandler의 IsMove는 애니메이션이 IsMove인지 체크하는 것이기에 다름
+    public bool IsMove;
 
     // 부위
     [Header("부위 노드")]
@@ -39,18 +42,21 @@ public class CharacterObject : EntityObject, IDamageable
 
         MotionHandler.Init();
         FSM = new FSM(MotionHandler);
+
+        IsMove = false;
     }
 
     // 가만히 있습니다.
     public virtual void OnIdle()
     {
         if (!MotionHandler.IsAttack && !MotionHandler.IsReload) FSM.ChangeState(new IdleState(MotionHandler));
+        IsMove = false;
     }
 
     public virtual void OnMove(Vector3 moveVec)
     {
         if (!MotionHandler.IsAttack && !MotionHandler.IsReload) FSM.ChangeState(new MoveState(MotionHandler));
-        transform.Translate(moveVec, Space.Self);
+        transform.Translate(moveVec, Space.Self); IsMove = true;
     }
 
     // 공격
