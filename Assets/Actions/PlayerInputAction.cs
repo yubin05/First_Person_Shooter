@@ -210,6 +210,54 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""BattleField_HandChange"",
+            ""id"": ""7d7f36fe-6a66-4d62-8e48-d8a1df5f8227"",
+            ""actions"": [
+                {
+                    ""name"": ""RifleChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9193142-bc09-4b87-94d3-9e4590f68d46"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PistolChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""50242160-7022-47b6-afe2-6edfe6db41e1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2499dfe4-2596-45b2-b3f5-e3973e7f4f56"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""RifleChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41fe351a-185a-49ba-8f33-682b176115e5"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""PistolChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -232,6 +280,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         // BattleField_Setting
         m_BattleField_Setting = asset.FindActionMap("BattleField_Setting", throwIfNotFound: true);
         m_BattleField_Setting_Pause = m_BattleField_Setting.FindAction("Pause", throwIfNotFound: true);
+        // BattleField_HandChange
+        m_BattleField_HandChange = asset.FindActionMap("BattleField_HandChange", throwIfNotFound: true);
+        m_BattleField_HandChange_RifleChange = m_BattleField_HandChange.FindAction("RifleChange", throwIfNotFound: true);
+        m_BattleField_HandChange_PistolChange = m_BattleField_HandChange.FindAction("PistolChange", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -239,6 +291,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_BattleField_Player.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_BattleField_Gun.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Gun.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_BattleField_Setting.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Setting.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_BattleField_HandChange.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_HandChange.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -458,6 +511,60 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         }
     }
     public BattleField_SettingActions @BattleField_Setting => new BattleField_SettingActions(this);
+
+    // BattleField_HandChange
+    private readonly InputActionMap m_BattleField_HandChange;
+    private List<IBattleField_HandChangeActions> m_BattleField_HandChangeActionsCallbackInterfaces = new List<IBattleField_HandChangeActions>();
+    private readonly InputAction m_BattleField_HandChange_RifleChange;
+    private readonly InputAction m_BattleField_HandChange_PistolChange;
+    public struct BattleField_HandChangeActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public BattleField_HandChangeActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @RifleChange => m_Wrapper.m_BattleField_HandChange_RifleChange;
+        public InputAction @PistolChange => m_Wrapper.m_BattleField_HandChange_PistolChange;
+        public InputActionMap Get() { return m_Wrapper.m_BattleField_HandChange; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BattleField_HandChangeActions set) { return set.Get(); }
+        public void AddCallbacks(IBattleField_HandChangeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BattleField_HandChangeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BattleField_HandChangeActionsCallbackInterfaces.Add(instance);
+            @RifleChange.started += instance.OnRifleChange;
+            @RifleChange.performed += instance.OnRifleChange;
+            @RifleChange.canceled += instance.OnRifleChange;
+            @PistolChange.started += instance.OnPistolChange;
+            @PistolChange.performed += instance.OnPistolChange;
+            @PistolChange.canceled += instance.OnPistolChange;
+        }
+
+        private void UnregisterCallbacks(IBattleField_HandChangeActions instance)
+        {
+            @RifleChange.started -= instance.OnRifleChange;
+            @RifleChange.performed -= instance.OnRifleChange;
+            @RifleChange.canceled -= instance.OnRifleChange;
+            @PistolChange.started -= instance.OnPistolChange;
+            @PistolChange.performed -= instance.OnPistolChange;
+            @PistolChange.canceled -= instance.OnPistolChange;
+        }
+
+        public void RemoveCallbacks(IBattleField_HandChangeActions instance)
+        {
+            if (m_Wrapper.m_BattleField_HandChangeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IBattleField_HandChangeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BattleField_HandChangeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BattleField_HandChangeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public BattleField_HandChangeActions @BattleField_HandChange => new BattleField_HandChangeActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -481,5 +588,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     public interface IBattleField_SettingActions
     {
         void OnPause(InputAction.CallbackContext context);
+    }
+    public interface IBattleField_HandChangeActions
+    {
+        void OnRifleChange(InputAction.CallbackContext context);
+        void OnPistolChange(InputAction.CallbackContext context);
     }
 }

@@ -38,5 +38,6 @@ public abstract class WeaponObject : EntityObject
         }
     }
     
+    public abstract void Take();    // 장착
     public abstract void Attack();  // 공격
 }

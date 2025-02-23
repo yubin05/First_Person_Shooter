@@ -134,6 +134,10 @@ public class PlayerController : CharacterController2
         var playerObj = base.Spawn<T, K>(id, position, rotation, parent) as PlayerObject;
         // var player = playerObj.data as Player;
 
+        // 총 장착 - 총 아이디 임시 하드 코딩
+        // playerObj.OnTake<GunInfo, RifleObject>(90001);
+        playerObj.OnTake<GunInfo, PistolObject>(90002);
+
         return playerObj as K;
     }
 }
@@ -216,19 +220,18 @@ public class BulletController : BaseController
 
     public K Spawn<T, K>(int id, GunObject gunObject, Vector3 targetPos) where T : Bullet where K : BulletObject
     {
-        var bulletObj = Spawn<T, K>(id, Vector3.zero, Quaternion.identity, gunObject.MuzzleNode);
+        var bulletObj = Spawn<T, K>(id, gunObject.MuzzleNode.position, Quaternion.identity);
         var bullet = bulletObj.data as T;
 
-        bulletObj.transform.SetParent(null); // 소환된 후에는 총구 노드에 종속되면 안됨
         bulletObj.transform.LookAt(targetPos);
 
         bulletObj.HitEvent += () => 
         {
-            gunObject.WeaponHUD.BlinkHitCanvas(0.1f);
+            if (gunObject.OwnerObject != null) gunObject.OwnerObject.HandsObjectSystem.CurHandsObject.WeaponObject.WeaponHUD.BlinkHitCanvas(0.1f);
         };
 
         var gun = gunObject.data as GunInfo;
-        GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.ShotSoundId, Vector3.zero, Quaternion.identity, gunObject.transform);
+        GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.ShotSoundId, gunObject.OwnerObject.transform.position, Quaternion.identity);
 
         return bulletObj;
     }

@@ -16,6 +16,8 @@ public class GunObject : WeaponObject
 
     public event Action ShotEvent;
 
+    public SoundObject ReloadSoundObj { get; protected set; }
+
     public override void Init(Data data)
     {
         base.Init(data);
@@ -35,6 +37,14 @@ public class GunObject : WeaponObject
             gun.Shot();
             WeaponHUD.UpdateAmmoTxt(gun.CurMagazineCapacity, gun.ReserveAmmo);
         };
+
+        ReloadSoundObj = null;
+    }
+
+    // 무기 장착
+    public override void Take()
+    {
+        WeaponHUD.HitCanvasGroup.alpha = 0f;   // 히트 판정 캔버스 그룹 투명값 초기화
     }
 
     // 총알 발사
@@ -80,6 +90,7 @@ public class GunObject : WeaponObject
     public void Aiming(bool isAiming)
     {
         var gun = data as GunInfo;
+        if (gun.HasAimingMode == 0) return;     // 조준 모드 없는 경우, 조준 하면 안됨
 
         // 캐릭터 오브젝트 조준 모드 - 손 오브젝트 위치 조정 포함
         OwnerObject.OnAiming(isAiming);
@@ -102,6 +113,10 @@ public class GunObject : WeaponObject
         OwnerObject.FSM.ChangeState(new ReloadState(OwnerObject.MotionHandler));
         FSM.ChangeState(new ReloadState(MotionHandler));
         
-        GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.ReloadSoundId, Vector3.zero, Quaternion.identity, transform);
+        ReloadSoundObj = GameApplication.Instance.GameController.SoundController.Spawn<SoundInfo, SoundObject>(gun.ReloadSoundId, Vector3.zero, Quaternion.identity, transform);
+        ReloadSoundObj.data.OnDataRemove += (data) =>
+        {
+            ReloadSoundObj = null;
+        };
     }
 }

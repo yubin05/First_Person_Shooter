@@ -20,6 +20,9 @@ public class MotionHandler : MonoBehaviour
     public bool IsAiming { get; private set; }
     public event Action AimingEvent;
 
+    public bool IsTake { get; private set; }
+    public event Action TakeEvent;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -38,6 +41,9 @@ public class MotionHandler : MonoBehaviour
 
         IsAiming = false;
         AimingEvent = null;
+
+        IsTake = false;
+        TakeEvent = null;
     }
 
     // 이동 시작
@@ -112,5 +118,24 @@ public class MotionHandler : MonoBehaviour
     {
         IsAiming = false;
         animator.SetBool(nameof(IsAiming), IsAiming);
+    }
+
+    // 장착 시작
+    public void StartTake()
+    {
+        IsTake = true;
+        animator.SetBool(nameof(IsTake), IsTake);
+        animator.SetTrigger(nameof(OnTake));
+    }
+    // 장착 이벤트
+    public void OnTake()
+    {
+        TakeEvent?.Invoke();
+    }
+    // 장착 끝
+    public void EndTake()
+    {
+        IsTake = false;
+        animator.SetBool(nameof(IsTake), IsTake);
     }
 }

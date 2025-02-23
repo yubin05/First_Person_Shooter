@@ -39,9 +39,7 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
         var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
         var rot = Quaternion.Euler(new Vector3(spawnPointInfo.RotationX, spawnPointInfo.RotationY, spawnPointInfo.RotationZ));
         
-        int gunId = 90001;
         var playerObj = GameApplication.Instance.GameController.PlayerController.Spawn<Player, PlayerObject>(playerId, pos, rot);
-        GameApplication.Instance.GameController.GunController.Spawn<GunInfo, GunObject>(gunId, playerObj);
     }
 
     private void SpawnEnemy()
@@ -68,7 +66,7 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
 
     public void OnPause(InputAction.CallbackContext context)
     {
-        var inputValue = context.ReadValue<float>();
-        if (inputValue == 0) IsPause = !IsPause;   // 0은 손에서 뗏을 때 (Up)
+        var inputValue = context.ReadValueAsButton();
+        if (inputValue == false) IsPause = !IsPause;   // false = 손에서 뗏을 때 (Up)
     }
 }

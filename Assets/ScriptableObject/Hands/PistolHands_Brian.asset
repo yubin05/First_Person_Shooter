@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1220899dca515ba4c80ff0de1951b742, type: 3}
-  m_Name: RifleHands_Brian
+  m_Name: PistolHands_Brian
   m_EditorClassIdentifier: 
-  weaponId: 90001
-  aimLocalVec: {x: -0.0668, y: -0.187, z: -0.129}
+  weaponId: 90002
+  aimLocalVec: {x: 0, y: 0, z: 0}

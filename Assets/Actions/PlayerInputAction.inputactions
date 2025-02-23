@@ -188,6 +188,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "BattleField_HandChange",
+            "id": "7d7f36fe-6a66-4d62-8e48-d8a1df5f8227",
+            "actions": [
+                {
+                    "name": "RifleChange",
+                    "type": "Button",
+                    "id": "d9193142-bc09-4b87-94d3-9e4590f68d46",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PistolChange",
+                    "type": "Button",
+                    "id": "50242160-7022-47b6-afe2-6edfe6db41e1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2499dfe4-2596-45b2-b3f5-e3973e7f4f56",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "RifleChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41fe351a-185a-49ba-8f33-682b176115e5",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PistolChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
