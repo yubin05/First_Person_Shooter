@@ -14,13 +14,11 @@ public abstract class WeaponObject : EntityObject
     public MotionHandler MotionHandler { get; protected set; }
     public FSM FSM { get; protected set; }    
 
-    protected MeshRenderer[] meshRenderers;
     public CharacterObject OwnerObject { get; set; }
 
     protected virtual void Awake()
     {
         MotionHandler = animator.transform.GetComponent<MotionHandler>();
-        meshRenderers = GetComponentsInChildren<MeshRenderer>();
     }
 
     public override void Init(Data data)
@@ -30,12 +28,7 @@ public abstract class WeaponObject : EntityObject
         WeaponHUD.Init();
 
         MotionHandler.Init();
-        FSM = new FSM(MotionHandler);        
-
-        foreach (var meshRenderer in meshRenderers)
-        {
-            meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        }
+        FSM = new FSM(MotionHandler);
     }
     
     public abstract void Take();    // 장착

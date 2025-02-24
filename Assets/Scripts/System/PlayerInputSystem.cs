@@ -11,8 +11,8 @@ public class PlayerInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_P
     private PlayerInputAction inputAction;
     
     // TODO: 추후 설정을 통해 해당 값을 변경할 수 있도록 함으로써 하드 코딩 해제해야 함
-    private float xSensitivity = 0.1f;
-    private float ySensitivity = 0.1f;
+    private float xSensitivity = 0.1f; private float ySensitivity = 0.1f;
+    private float xMinRotation = -0.7f; private float xMaxRotation = 0.7f;
 
     private void Awake()
     {
@@ -42,6 +42,11 @@ public class PlayerInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_P
         inputRotVector.x *= xSensitivity; inputRotVector.y *= ySensitivity;
         playerObj.transform.Rotate(0, inputRotVector.x, 0);
         playerObj.Cam.transform.Rotate(-inputRotVector.y, 0, 0);
+
+        // 카메라 위아래 회전 제한
+        var playerCamRotation = playerObj.Cam.transform.localRotation;
+        playerCamRotation.x = Mathf.Clamp(playerCamRotation.x, xMinRotation, xMaxRotation);
+        playerObj.Cam.transform.localRotation = playerCamRotation;
     }
 
     private void OnDisable()

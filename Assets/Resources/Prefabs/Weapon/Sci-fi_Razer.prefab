@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8552834084767856984}
   - component: {fileID: 2019174664714611717}
   - component: {fileID: 3932459511420356043}
+  - component: {fileID: 6574149565076478198}
   m_Layer: 0
   m_Name: Sci-fi_Razer
   m_TagString: Untagged
@@ -127,6 +128,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunObject: {fileID: 8552834084767856984}
+--- !u!114 &6574149565076478198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7595348163720995621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a21c5dc1119374e814b9e7b2a207ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowCastingMode: 0
 --- !u!1001 &604558475761008348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -204,6 +218,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5078903600777333599, guid: a7f028b892c0ab6478cdd55b3797192f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98021
+      objectReference: {fileID: 0}
+    - target: {fileID: -4226156463210825400, guid: a7f028b892c0ab6478cdd55b3797192f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.103
+      objectReference: {fileID: 0}
+    - target: {fileID: -4226156463210825400, guid: a7f028b892c0ab6478cdd55b3797192f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.065
+      objectReference: {fileID: 0}
+    - target: {fileID: -4226156463210825400, guid: a7f028b892c0ab6478cdd55b3797192f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98021
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a7f028b892c0ab6478cdd55b3797192f,
         type: 3}
