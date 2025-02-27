@@ -140,8 +140,41 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
             switch (typeof(T).Name)
             {
                 case nameof(GunInfo): default: HandsObjectSystem.CurHandsObject.WeaponObject = GameApplication.Instance.GameController.GunController.Spawn<T, K>(weaponId, this); break;
+                case nameof(KnifeInfo): HandsObjectSystem.CurHandsObject.WeaponObject = GameApplication.Instance.GameController.KnifeController.Spawn<T, K>(weaponId, this); break;
             }
         }
+        // 애니메이터 설정 시 모션 핸들러 이벤트가 모두 초기화되므로 나이프의 경우, 공격 이벤트 추가해줘야 함
+        if (HandsObjectSystem.CurHandsObject.WeaponObject is KnifeObject)
+        {
+            var knifeObj = HandsObjectSystem.CurHandsObject.WeaponObject as KnifeObject;
+            var knife = knifeObj.data as KnifeInfo;
+
+            knifeObj.OwnerObject.MotionHandler.AttackEvent += () => 
+            {
+                var hits = Physics.OverlapSphere(knifeObj.OwnerObject.Cam.transform.position, knife.Distance, LayerMask.GetMask(nameof(Enemy)));
+                if (hits.Length > 0)
+                {
+                    var hitInstances = new HashSet<int>();  // 콜라이더 탐지에 있어서 객체 중복을 막기 위해 추가
+                    foreach (var hit in hits)
+                    {
+                        var damageSystem = hit.transform.GetComponentInParent<DamageSystem>();
+                        if (damageSystem != null)
+                        {
+                            int instanceId = damageSystem.GetInstanceID();
+
+                            // 한번도 탐지하지 않은 객체 아이디만 히트 판정 처리
+                            if (!hitInstances.Contains(instanceId))
+                            {
+                                hitInstances.Add(instanceId);
+
+                                damageSystem.OnHit(knife.AttackPower);
+                                knifeObj.HitEvent?.Invoke();
+                            }                    
+                        }
+                    }
+                }
+            };
+        }        
         WeaponObject = HandsObjectSystem.CurHandsObject.WeaponObject;
         WeaponObject.Take();
         

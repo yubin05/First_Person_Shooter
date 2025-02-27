@@ -184,6 +184,34 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""BattleField_Knife"",
+            ""id"": ""8328df85-d548-44c6-96c5-70e53d8e2fac"",
+            ""actions"": [
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""918d4ad9-f9e5-4868-aec8-4fe6ab33e3f2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""48211c5c-dff3-4661-a6df-4551f4f9a141"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""BattleField_Setting"",
             ""id"": ""f1acb8bb-a49a-49e3-8f0a-5979073efd3e"",
             ""actions"": [
@@ -232,6 +260,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""KnifeChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbce2f0c-526a-40dd-974b-57d46ba8ebd2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +293,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""PistolChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02ca49c0-5b96-495e-803b-18eacd3983f2"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""KnifeChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -277,6 +325,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_BattleField_Gun_Shot = m_BattleField_Gun.FindAction("Shot", throwIfNotFound: true);
         m_BattleField_Gun_Aiming = m_BattleField_Gun.FindAction("Aiming", throwIfNotFound: true);
         m_BattleField_Gun_Reload = m_BattleField_Gun.FindAction("Reload", throwIfNotFound: true);
+        // BattleField_Knife
+        m_BattleField_Knife = asset.FindActionMap("BattleField_Knife", throwIfNotFound: true);
+        m_BattleField_Knife_Attack = m_BattleField_Knife.FindAction("Attack", throwIfNotFound: true);
         // BattleField_Setting
         m_BattleField_Setting = asset.FindActionMap("BattleField_Setting", throwIfNotFound: true);
         m_BattleField_Setting_Pause = m_BattleField_Setting.FindAction("Pause", throwIfNotFound: true);
@@ -284,12 +335,14 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_BattleField_HandChange = asset.FindActionMap("BattleField_HandChange", throwIfNotFound: true);
         m_BattleField_HandChange_RifleChange = m_BattleField_HandChange.FindAction("RifleChange", throwIfNotFound: true);
         m_BattleField_HandChange_PistolChange = m_BattleField_HandChange.FindAction("PistolChange", throwIfNotFound: true);
+        m_BattleField_HandChange_KnifeChange = m_BattleField_HandChange.FindAction("KnifeChange", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
     {
         UnityEngine.Debug.Assert(!m_BattleField_Player.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_BattleField_Gun.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Gun.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_BattleField_Knife.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Knife.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_BattleField_Setting.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_Setting.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_BattleField_HandChange.enabled, "This will cause a leak and performance issues, PlayerInputAction.BattleField_HandChange.Disable() has not been called.");
     }
@@ -466,6 +519,52 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     }
     public BattleField_GunActions @BattleField_Gun => new BattleField_GunActions(this);
 
+    // BattleField_Knife
+    private readonly InputActionMap m_BattleField_Knife;
+    private List<IBattleField_KnifeActions> m_BattleField_KnifeActionsCallbackInterfaces = new List<IBattleField_KnifeActions>();
+    private readonly InputAction m_BattleField_Knife_Attack;
+    public struct BattleField_KnifeActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public BattleField_KnifeActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Attack => m_Wrapper.m_BattleField_Knife_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_BattleField_Knife; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BattleField_KnifeActions set) { return set.Get(); }
+        public void AddCallbacks(IBattleField_KnifeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BattleField_KnifeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BattleField_KnifeActionsCallbackInterfaces.Add(instance);
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+        }
+
+        private void UnregisterCallbacks(IBattleField_KnifeActions instance)
+        {
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+        }
+
+        public void RemoveCallbacks(IBattleField_KnifeActions instance)
+        {
+            if (m_Wrapper.m_BattleField_KnifeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IBattleField_KnifeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BattleField_KnifeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BattleField_KnifeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public BattleField_KnifeActions @BattleField_Knife => new BattleField_KnifeActions(this);
+
     // BattleField_Setting
     private readonly InputActionMap m_BattleField_Setting;
     private List<IBattleField_SettingActions> m_BattleField_SettingActionsCallbackInterfaces = new List<IBattleField_SettingActions>();
@@ -517,12 +616,14 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private List<IBattleField_HandChangeActions> m_BattleField_HandChangeActionsCallbackInterfaces = new List<IBattleField_HandChangeActions>();
     private readonly InputAction m_BattleField_HandChange_RifleChange;
     private readonly InputAction m_BattleField_HandChange_PistolChange;
+    private readonly InputAction m_BattleField_HandChange_KnifeChange;
     public struct BattleField_HandChangeActions
     {
         private @PlayerInputAction m_Wrapper;
         public BattleField_HandChangeActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @RifleChange => m_Wrapper.m_BattleField_HandChange_RifleChange;
         public InputAction @PistolChange => m_Wrapper.m_BattleField_HandChange_PistolChange;
+        public InputAction @KnifeChange => m_Wrapper.m_BattleField_HandChange_KnifeChange;
         public InputActionMap Get() { return m_Wrapper.m_BattleField_HandChange; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -538,6 +639,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @PistolChange.started += instance.OnPistolChange;
             @PistolChange.performed += instance.OnPistolChange;
             @PistolChange.canceled += instance.OnPistolChange;
+            @KnifeChange.started += instance.OnKnifeChange;
+            @KnifeChange.performed += instance.OnKnifeChange;
+            @KnifeChange.canceled += instance.OnKnifeChange;
         }
 
         private void UnregisterCallbacks(IBattleField_HandChangeActions instance)
@@ -548,6 +652,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @PistolChange.started -= instance.OnPistolChange;
             @PistolChange.performed -= instance.OnPistolChange;
             @PistolChange.canceled -= instance.OnPistolChange;
+            @KnifeChange.started -= instance.OnKnifeChange;
+            @KnifeChange.performed -= instance.OnKnifeChange;
+            @KnifeChange.canceled -= instance.OnKnifeChange;
         }
 
         public void RemoveCallbacks(IBattleField_HandChangeActions instance)
@@ -585,6 +692,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnAiming(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
     }
+    public interface IBattleField_KnifeActions
+    {
+        void OnAttack(InputAction.CallbackContext context);
+    }
     public interface IBattleField_SettingActions
     {
         void OnPause(InputAction.CallbackContext context);
@@ -593,5 +704,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     {
         void OnRifleChange(InputAction.CallbackContext context);
         void OnPistolChange(InputAction.CallbackContext context);
+        void OnKnifeChange(InputAction.CallbackContext context);
     }
 }

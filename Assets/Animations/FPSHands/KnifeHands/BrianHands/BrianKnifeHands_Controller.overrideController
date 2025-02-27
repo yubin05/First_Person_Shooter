@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BrianKnifeHands_Controller
+  m_Controller: {fileID: 9100000, guid: 1c0a408c7ed82d246a4552b81c67de2e, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d1225707e10ce474996fde892afe910d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d1225707e10ce474996fde892afe910d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8e710aaa79fdbf2438a2d4462073563b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8e710aaa79fdbf2438a2d4462073563b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 77ade74b270ebb646af1bdeea5318107, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 77ade74b270ebb646af1bdeea5318107, type: 2}

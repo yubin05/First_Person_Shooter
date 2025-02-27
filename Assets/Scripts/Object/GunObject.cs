@@ -63,7 +63,7 @@ public class GunObject : WeaponObject
         }
 
         // 레이캐스트로 대상 체크        
-        bool isHit = Physics.Raycast(OwnerObject.Cam.transform.position, direction, out RaycastHit hit, gun.Distance, LayerMask.GetMask(nameof(Player), nameof(Obstacle)));
+        bool isHit = Physics.Raycast(OwnerObject.Cam.transform.position, direction, out RaycastHit hit, gun.Distance, LayerMask.GetMask(nameof(Enemy), nameof(Obstacle)));
         Vector3 targetPos = isHit ? hit.point : OwnerObject.Cam.transform.position + OwnerObject.Cam.transform.forward*gun.Distance;        
         
         var bulletObj = GameApplication.Instance.GameController.BulletController.Spawn<Bullet, BulletObject>(gun.BulletId, this, targetPos);   // 총알 소환
@@ -78,7 +78,7 @@ public class GunObject : WeaponObject
                 if (damageSystem != null)
                 {
                     damageSystem.OnHit(bullet.AttackPower);
-                    bulletObj.ExecuteHitEvent();
+                    bulletObj.HitEvent?.Invoke();
                 }
             }
         }

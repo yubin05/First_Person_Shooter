@@ -13,7 +13,8 @@ public class GameController
     public PlayerController PlayerController { get; private set; }
     public EnemyController EnemyController { get; private set; }
     public GunController GunController { get; private set; }
-    public BulletController BulletController { get; private set; }
+    public KnifeController KnifeController { get; private set; }
+    public BulletController BulletController { get; private set; }    
 
     public void Init(GameModel gameModel)
     {
@@ -21,7 +22,8 @@ public class GameController
         PlayerController = new PlayerController(gameModel);
         EnemyController = new EnemyController(gameModel);
         GunController = new GunController(gameModel);
-        BulletController = new BulletController(gameModel);
+        KnifeController = new KnifeController(gameModel);
+        BulletController = new BulletController(gameModel);        
     }
 }
 
@@ -211,6 +213,23 @@ public class GunController : WeaponController
         }
         
         return gunObj as K;
+    }
+}
+public class KnifeController : WeaponController
+{
+    public KnifeController(GameModel gameModel) : base(gameModel) {}
+
+    public override K Spawn<T, K>(int id, CharacterObject characterObj)
+    {
+        var knifeObj = base.Spawn<T, K>(id, characterObj) as KnifeObject;
+        var knife = knifeObj.data as KnifeInfo;
+
+        knifeObj.HitEvent += () => 
+        {
+            if (knifeObj.OwnerObject != null) knifeObj.OwnerObject.HandsObjectSystem.CurHandsObject.WeaponObject.WeaponHUD.BlinkHitCanvas(0.3f);
+        };
+
+        return knifeObj as K;
     }
 }
 

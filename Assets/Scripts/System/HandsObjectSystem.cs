@@ -15,6 +15,9 @@ public class HandsObjectSystem : MonoBehaviour, PlayerInputAction.IBattleField_H
     [SerializeField] private HandsObject pistolHandObject;
     // public HandsObject PistolHandObject => pistolHandObject;
 
+    [SerializeField] private HandsObject knifeHandObject;
+    // public HandsObject KnifeHandObject => knifeHandObject;
+
     public IChangeWeapon IChangeWeapon { get; private set; }    // character object
     public HandsObject CurHandsObject { get; private set; }
 
@@ -45,7 +48,8 @@ public class HandsObjectSystem : MonoBehaviour, PlayerInputAction.IBattleField_H
             case nameof(RifleObject): default:
             {
                 pistolHandObject.gameObject.SetActive(false);
-                rifleHandObject.gameObject.SetActive(true);
+                knifeHandObject.gameObject.SetActive(false);
+                rifleHandObject.gameObject.SetActive(true);                
 
                 Type = Types.Rifle;
                 CurHandsObject = rifleHandObject;
@@ -54,10 +58,21 @@ public class HandsObjectSystem : MonoBehaviour, PlayerInputAction.IBattleField_H
             case nameof(PistolObject):
             {
                 rifleHandObject.gameObject.SetActive(false);
+                knifeHandObject.gameObject.SetActive(false);
                 pistolHandObject.gameObject.SetActive(true);
 
                 Type = Types.Pistol;
                 CurHandsObject = pistolHandObject;
+                break;
+            }
+            case nameof(KnifeObject):
+            {
+                rifleHandObject.gameObject.SetActive(false);
+                pistolHandObject.gameObject.SetActive(false);
+                knifeHandObject.gameObject.SetActive(true);
+
+                Type = Types.Knife;
+                CurHandsObject = knifeHandObject;
                 break;
             }
         }
@@ -85,5 +100,13 @@ public class HandsObjectSystem : MonoBehaviour, PlayerInputAction.IBattleField_H
 
         var value = context.ReadValueAsButton();
         if (value == false) IChangeWeapon.OnTake<GunInfo, PistolObject>(90002);
+    }
+    public void OnKnifeChange(InputAction.CallbackContext context)
+    {
+        if (BattleFieldScene.Instance.IsPause) return;
+        if (Type == Types.Knife) return;
+
+        var value = context.ReadValueAsButton();
+        if (value == false) IChangeWeapon.OnTake<KnifeInfo, KnifeObject>(120001);
     }
 }

@@ -162,6 +162,34 @@
             ]
         },
         {
+            "name": "BattleField_Knife",
+            "id": "8328df85-d548-44c6-96c5-70e53d8e2fac",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "918d4ad9-f9e5-4868-aec8-4fe6ab33e3f2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "48211c5c-dff3-4661-a6df-4551f4f9a141",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "BattleField_Setting",
             "id": "f1acb8bb-a49a-49e3-8f0a-5979073efd3e",
             "actions": [
@@ -210,6 +238,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "KnifeChange",
+                    "type": "Button",
+                    "id": "bbce2f0c-526a-40dd-974b-57d46ba8ebd2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -232,6 +269,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "PistolChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02ca49c0-5b96-495e-803b-18eacd3983f2",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "KnifeChange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

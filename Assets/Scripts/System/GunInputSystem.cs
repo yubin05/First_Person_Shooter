@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunActions
 {
-    [SerializeField] protected GunObject gunObject;
+    [SerializeField] private GunObject gunObject;
 
     private PlayerInputAction inputAction;
     private float shotDelayTime;

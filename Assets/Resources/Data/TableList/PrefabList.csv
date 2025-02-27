@@ -3,9 +3,11 @@ Id,Path
 10002,Prefabs/SoundObject/TestSFX
 10003,Prefabs/SoundObject/Gun_Fire
 10004,Prefabs/SoundObject/Gun_Reload
+10005,Prefabs/SoundObject/Knife_Attack
 20001,Prefabs/Character/Brian
 20002,Prefabs/Character/Amy
 30001,Prefabs/Character/Bot
 90001,Prefabs/Weapon/Sci-fi_Razer
 90002,Prefabs/Weapon/HK-47_Pistol
 100001,Prefabs/BulletObject/7_62mm
+120001,Prefabs/Weapon/Combat_Knife
