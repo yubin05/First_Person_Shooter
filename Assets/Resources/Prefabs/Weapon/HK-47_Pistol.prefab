@@ -53,6 +53,7 @@ MonoBehaviour:
   animator: {fileID: 9128099330141962651}
   weaponHUD: {fileID: 6813539000139524116}
   muzzleNode: {fileID: 5886800203855663560}
+  weaponInputSystem: {fileID: 3895578106091067127}
 --- !u!114 &7130533732654777191
 MonoBehaviour:
   m_ObjectHideFlags: 0

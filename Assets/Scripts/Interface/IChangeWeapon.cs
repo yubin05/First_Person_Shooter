@@ -5,5 +5,5 @@ using System;
 /// </summary>
 public interface IChangeWeapon
 {
-    public void OnTake<T, K>(int weaponId) where T : WeaponInfo where K : WeaponObject;
+    public K OnTake<T, K>(int weaponId) where T : WeaponInfo where K : WeaponObject;
 }

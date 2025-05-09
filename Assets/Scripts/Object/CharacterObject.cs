@@ -10,7 +10,7 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
     
     // 1인칭 손 오브젝트 관련
     [SerializeField] protected HandsObjectSystem handsObjectSystem;
-    public HandsObjectSystem HandsObjectSystem => handsObjectSystem;    
+    public HandsObjectSystem HandsObjectSystem => handsObjectSystem;
 
     // 애니메이터 & 부위 관련
     protected Animator animator;
@@ -50,6 +50,8 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
         character.Init(this);
 
         IsMove = false;
+        
+        HandsObjectSystem?.Init(this);
     }
 
     // 가만히 있습니다.
@@ -108,7 +110,7 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
     }
 
     // 무기 장착(교체)
-    public virtual void OnTake<T, K>(int weaponId) where T : WeaponInfo where K : WeaponObject
+    public virtual K OnTake<T, K>(int weaponId) where T : WeaponInfo where K : WeaponObject
     {
         // 조준 중이면 조준 해제
         if (HandsObjectSystem.CurHandsObject != null)
@@ -176,9 +178,11 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
             };
         }        
         WeaponObject = HandsObjectSystem.CurHandsObject.WeaponObject;
-        WeaponObject.Take();
+        WeaponObject.Take(); WeaponObject.gameObject.SetActive(true);
         
         // 무기 장착 상태로 변경
         FSM.ChangeState(new TakeState(MotionHandler));
+
+        return WeaponObject as K;
     }
 }

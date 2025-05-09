@@ -11,10 +11,15 @@ public abstract class WeaponObject : EntityObject
     [SerializeField] protected WeaponHUD weaponHUD;
     public WeaponHUD WeaponHUD => weaponHUD;
 
+    // 무기 입력 시스템 - 플레이어일 경우에는 키고 적일 경우에는 끄기 위함
+    [Header("Weapon Input System")]
+    [SerializeField] protected WeaponInputSystem weaponInputSystem;
+    public WeaponInputSystem WeaponInputSystem => weaponInputSystem;
+
     public MotionHandler MotionHandler { get; protected set; }
     public FSM FSM { get; protected set; }    
 
-    public CharacterObject OwnerObject { get; set; }
+    public CharacterObject OwnerObject { get; set; }    
 
     protected virtual void Awake()
     {

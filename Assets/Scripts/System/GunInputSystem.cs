@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-public class GunInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_GunActions
+public class GunInputSystem : WeaponInputSystem, PlayerInputAction.IBattleField_GunActions
 {
     [SerializeField] private GunObject gunObject;
 

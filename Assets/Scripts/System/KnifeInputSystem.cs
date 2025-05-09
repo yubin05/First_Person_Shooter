@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-public class KnifeInputSystem : MonoBehaviour, PlayerInputAction.IBattleField_KnifeActions
+public class KnifeInputSystem : WeaponInputSystem, PlayerInputAction.IBattleField_KnifeActions
 {
     [SerializeField] private KnifeObject knifeObject;
 

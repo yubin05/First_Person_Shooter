@@ -75,8 +75,8 @@ GameObject:
   - component: {fileID: 4851180037948629023}
   - component: {fileID: 8458169686304007645}
   - component: {fileID: 6697828165046674638}
-  - component: {fileID: 8701803542711119956}
   - component: {fileID: 1747834730910244943}
+  - component: {fileID: 7657666023069704287}
   m_Layer: 8
   m_Name: PlayerCam
   m_TagString: Untagged
@@ -220,21 +220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reactionData: {fileID: 11400000, guid: 81fdd98bbaefda740a75859f8a40a5ab, type: 2}
   IsReact: 0
---- !u!114 &8701803542711119956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5112387965028492614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b7be579e04f33d4eb5a4b3e4c85dcaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rifleHandObject: {fileID: 823141133642664653}
-  pistolHandObject: {fileID: 3756466710981396746}
-  knifeHandObject: {fileID: 5249628566975498357}
 --- !u!114 &1747834730910244943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +251,21 @@ MonoBehaviour:
   m_DefaultActionMap: BattleField_HandChange
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7657666023069704287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5112387965028492614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c04bc20da541cc4f958899f14e2e5bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rifleHandObject: {fileID: 823141133642664653}
+  pistolHandObject: {fileID: 3756466710981396746}
+  knifeHandObject: {fileID: 5249628566975498357}
 --- !u!1 &5255847830162899383
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1218880874746718652}
-  handsObjectSystem: {fileID: 8701803542711119956}
+  handsObjectSystem: {fileID: 7657666023069704287}
 --- !u!143 &1784711762101550817
 CharacterController:
   m_ObjectHideFlags: 0

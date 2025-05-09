@@ -10,7 +10,5 @@ public class PlayerObject : CharacterObject
 
         var player = data as Player;
         player.Init(this);
-
-        HandsObjectSystem.Init(this);    // temp
     }
 }

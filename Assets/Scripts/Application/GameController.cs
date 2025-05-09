@@ -138,7 +138,9 @@ public class PlayerController : CharacterController2
 
         // 총 장착 - 총 아이디 임시 하드 코딩
         // playerObj.OnTake<GunInfo, RifleObject>(90001);
-        playerObj.OnTake<GunInfo, PistolObject>(90002);
+        var weaponObj = playerObj.OnTake<GunInfo, PistolObject>(90002);
+        weaponObj.WeaponInputSystem.enabled = true;
+        weaponObj.WeaponHUD.gameObject.SetActive(true);
 
         return playerObj as K;
     }
@@ -159,10 +161,23 @@ public class EnemyController : CharacterController2
 
         enemy.OnDataRemove += (data) => 
         {
-            if (BattleFieldScene.Instance != null) BattleFieldScene.Instance.StartCoroutine(BattleFieldScene.Instance.RespawnEnemy(id, spawnPointId, enemy.RespawnTime));
+            // 배틀 필드에서만 적용하도록 함
+            // + 코루틴의 경우, 코루틴 실행했던 오브젝트 파괴 시 중단되므로 배틀필드 오브젝트 코루틴으로 실행
+            if (BattleFieldScene.Instance != null) BattleFieldScene.Instance.StartCoroutine(Respawn(id, spawnPointId, enemy.RespawnTime));
         };
 
+        // 총 장착 (임시로 권총)
+        var weaponObj = enemyObj.OnTake<GunInfo, PistolObject>(90002);
+        weaponObj.WeaponInputSystem.enabled = false;    // 적의 경우, 입력값을 받으면 안됨
+        weaponObj.WeaponHUD.gameObject.SetActive(false);    // 적의 총알 정보 등은 보여지면 안됨
+
         return enemyObj;
+    }
+
+    private IEnumerator Respawn(int id, int spawnPointId, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        var botObj = GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(id, spawnPointId);
     }
 }
 

@@ -47,16 +47,11 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
         var spawnPointInfos = GameApplication.Instance.GameModel.PresetData.ReturnDatas<SpawnPointInfo>(nameof(SpawnPointInfo));
         for (int i=1; i<spawnPointInfos.Length; i++)
         {
-            int botId = 30001;
+            int botId = 30002;
             int spawnPointId = spawnPointInfos[i].Id;
 
             GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(botId, spawnPointId);
         }
-    }
-    public IEnumerator RespawnEnemy(int id, int spawnPointId, float delayTime)
-    {
-        yield return new WaitForSeconds(delayTime);
-        var botObj = GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(id, spawnPointId);
     }
 
     private void OnDisable()
