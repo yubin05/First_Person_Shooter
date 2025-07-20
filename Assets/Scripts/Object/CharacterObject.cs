@@ -97,7 +97,7 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
     public virtual void OnHit(float attackPower)
     {
         FSM.ChangeState(new HitState(MotionHandler));
-        HealthSystem.CurHp -= attackPower;
+        HealthSystem.CurHp.Value -= attackPower;
     }
     
     // 죽음

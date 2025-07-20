@@ -279,6 +279,8 @@ GameObject:
   - component: {fileID: 1784711762101550817}
   - component: {fileID: 7436278984339806043}
   - component: {fileID: 1906375700480360763}
+  - component: {fileID: 2772591432483666811}
+  - component: {fileID: 7354232563702209945}
   m_Layer: 8
   m_Name: Brian
   m_TagString: Player
@@ -387,6 +389,30 @@ MonoBehaviour:
   m_DefaultActionMap: BattleField_Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2772591432483666811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255847830162899383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aeb291540b601940a604eb3b0519f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7354232563702209945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255847830162899383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8d1b19df3fdba448bc019242d07ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7091485208491624653
 GameObject:
   m_ObjectHideFlags: 0

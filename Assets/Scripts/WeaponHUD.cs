@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class WeaponHUD : View<WeaponHUDPresenter, WeaponHUDModel>
 {
@@ -14,7 +16,7 @@ public class WeaponHUD : View<WeaponHUDPresenter, WeaponHUDModel>
     [SerializeField] protected CanvasGroup hitCanvasGroup;
     public CanvasGroup HitCanvasGroup => hitCanvasGroup;
 
-    private Coroutine blinkCoroutine;
+    //private Coroutine blinkCoroutine;
 
     public override void UpdateUI(WeaponHUDModel model)
     {
@@ -30,15 +32,10 @@ public class WeaponHUD : View<WeaponHUDPresenter, WeaponHUDModel>
     }
 
     // 명중 시, 조준점 깜빡임
-    public void BlinkHitCanvas(float delayTime)
-    {
-        if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
-        blinkCoroutine = StartCoroutine(BlinkProcess(delayTime));
-    }
-    private IEnumerator BlinkProcess(float delayTime)
+    public async UniTaskVoid BlinkHitCanvas(float delayTime)
     {
         HitCanvasGroup.alpha = 1f;
-        yield return new WaitForSeconds(delayTime);
+        await UniTask.Delay(TimeSpan.FromSeconds(delayTime));
         HitCanvasGroup.alpha = 0f;
     }
 }

@@ -118,7 +118,7 @@ public class CharacterController2 : BaseController
         {
             healthSystem.Init(actorStatInfo.MaxHp);
 
-            healthSystem.ChangeCurHpEvent += (hp) => 
+            healthSystem.CurHp.OnChanged += (hp) => 
             {
                 if (hp <= 0) characterObj.OnDeath();    // 체력이 0이하이면 죽은 것으로 판정
             };

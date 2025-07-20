@@ -62,8 +62,9 @@ public class GunObject : WeaponObject
             direction.y += UnityEngine.Random.Range(gun.MinVerBulletSpread, gun.MaxVerBulletSpread);
         }
 
-        // 레이캐스트로 대상 체크        
-        bool isHit = Physics.Raycast(OwnerObject.Cam.transform.position, direction, out RaycastHit hit, gun.Distance, LayerMask.GetMask(nameof(Enemy), nameof(Obstacle)));
+        // 레이캐스트로 대상 체크
+        int layerMask = OwnerObject is PlayerObject ? LayerMask.GetMask(nameof(Enemy), nameof(Obstacle)) : LayerMask.GetMask(nameof(Player), nameof(Obstacle));
+        bool isHit = Physics.Raycast(OwnerObject.Cam.transform.position, direction, out RaycastHit hit, gun.Distance, layerMask);
         Vector3 targetPos = isHit ? hit.point : OwnerObject.Cam.transform.position + OwnerObject.Cam.transform.forward*gun.Distance;        
         
         var bulletObj = GameApplication.Instance.GameController.BulletController.Spawn<Bullet, BulletObject>(gun.BulletId, this, targetPos);   // 총알 소환
