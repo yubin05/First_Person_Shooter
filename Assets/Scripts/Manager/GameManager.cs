@@ -93,10 +93,16 @@ public class GameManager : GlobalSingleton<GameManager>
         File.WriteAllText(path, dataStr);
     }
 
+    private float cacheTime = 1.0f;
+    // 일시 정지 해제
+    public void PlayGame()
+    {
+        Time.timeScale = cacheTime;
+    }
     // 일시 정지
     public void PauseGame()
     {
-
+        Time.timeScale = 0f;
     }
 
     // 게임 종료

@@ -30,11 +30,13 @@ public class BattleFieldScene_Pause : MonoBehaviour
     {
         txt_pause.UpdateTextInfoName(1005);
         root.SetActive(true);
+        GameManager.Instance.PauseGame();
     }
 
     // 일시정지 해제 되었을 때
     private void OffPause()
     {
         root.SetActive(false);
+        GameManager.Instance.PlayGame();
     }
 }
