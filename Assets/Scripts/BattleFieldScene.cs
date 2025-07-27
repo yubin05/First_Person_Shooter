@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAction.IBattleField_SettingActions
 {
-    public bool IsPause { get; set; }   // 게임이 일시정지인지 체크
+    [SerializeField] private BattleFieldScene_Pause battleFieldScene_Pause;
+    public bool IsPause { get => battleFieldScene_Pause.IsPause; set => battleFieldScene_Pause.IsPause = value; }   // 게임이 일시정지인지 체크
+
     private PlayerInputAction inputAction;
 
     private void Awake()
@@ -38,14 +40,14 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
 
         var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
         var rot = Quaternion.Euler(new Vector3(spawnPointInfo.RotationX, spawnPointInfo.RotationY, spawnPointInfo.RotationZ));
-        
+
         var playerObj = GameApplication.Instance.GameController.PlayerController.Spawn<Player, PlayerObject>(playerId, pos, rot);
     }
 
     private void SpawnEnemy()
     {
         var spawnPointInfos = GameApplication.Instance.GameModel.PresetData.ReturnDatas<SpawnPointInfo>(nameof(SpawnPointInfo));
-        for (int i=1; i<spawnPointInfos.Length; i++)
+        for (int i = 1; i < spawnPointInfos.Length; i++)
         {
             int botId = 30002;
             int spawnPointId = spawnPointInfos[i].Id;
@@ -62,6 +64,9 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
     public void OnPause(InputAction.CallbackContext context)
     {
         var inputValue = context.ReadValueAsButton();
-        if (inputValue == false) IsPause = !IsPause;   // false = 손에서 뗏을 때 (Up)
+        if (inputValue == false)
+        {
+            IsPause = !IsPause;   // false = 손에서 뗏을 때 (Up)
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 
 public class GameManager : GlobalSingleton<GameManager>
 {
@@ -90,6 +91,12 @@ public class GameManager : GlobalSingleton<GameManager>
         var path = Application.persistentDataPath + "/" + DataTablePath.JsonFilePath + fileName + extension;
         var dataStr = "[" + JsonConvert.SerializeObject(GameApplication.Instance.GameModel.ClientData.PlayerSound) + "]";
         File.WriteAllText(path, dataStr);
+    }
+
+    // 일시 정지
+    public void PauseGame()
+    {
+
     }
 
     // 게임 종료
