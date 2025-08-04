@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class WeaponInfo : Entity
 {
+    public Define.EWeaponType WeaponType { get; set; }
 }

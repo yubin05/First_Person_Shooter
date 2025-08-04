@@ -5,7 +5,7 @@ using UnityEngine;
 public class HitEffecter : MonoBehaviour
 {
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private float fadeSpeed = 2f;
+    [SerializeField] private float fadeSpeed = Define.HIT_EFFECT_FADE_SPEED;
 
     private void Update()
     {

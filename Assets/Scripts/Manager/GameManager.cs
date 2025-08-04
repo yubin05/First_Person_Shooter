@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
 
 public class GameManager : GlobalSingleton<GameManager>
 {

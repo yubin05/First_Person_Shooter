@@ -35,7 +35,7 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
 
     private void SpawnPlayer()
     {
-        int playerId = 20001;
+        int playerId = Define.DEFAULT_PLAYER_ID;
         var spawnPointInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<SpawnPointInfo>(nameof(SpawnPointInfo), 110001);
 
         var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
@@ -49,7 +49,7 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
         var spawnPointInfos = GameApplication.Instance.GameModel.PresetData.ReturnDatas<SpawnPointInfo>(nameof(SpawnPointInfo));
         for (int i = 1; i < spawnPointInfos.Length; i++)
         {
-            int botId = 30002;
+            int botId = Define.DEFAULT_ENEMY_ID;
             int spawnPointId = spawnPointInfos[i].Id;
 
             GameApplication.Instance.GameController.EnemyController.Spawn<Enemy, EnemyObject>(botId, spawnPointId);

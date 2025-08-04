@@ -136,9 +136,8 @@ public class PlayerController : CharacterController2
         var playerObj = base.Spawn<T, K>(id, position, rotation, parent) as PlayerObject;
         // var player = playerObj.data as Player;
 
-        // 총 장착 - 총 아이디 임시 하드 코딩
-        // playerObj.OnTake<GunInfo, RifleObject>(90001);
-        var weaponObj = playerObj.OnTake<GunInfo, PistolObject>(90002);
+        // 총 장착
+        var weaponObj = playerObj.TakeWeapon(Define.DEFAULT_GUN_ID);
         weaponObj.WeaponInputSystem.enabled = true;
         weaponObj.WeaponHUD.gameObject.SetActive(true);
 
@@ -181,8 +180,8 @@ public class EnemyController : CharacterController2
             if (BattleFieldScene.Instance != null) BattleFieldScene.Instance.StartCoroutine(Respawn(id, spawnPointId, enemy.RespawnTime));
         };
 
-        // 총 장착 (임시로 권총)
-        var weaponObj = enemyObj.OnTake<GunInfo, PistolObject>(90002);
+        // 총 장착
+        var weaponObj = enemyObj.TakeWeapon(Define.DEFAULT_GUN_ID);
         weaponObj.WeaponInputSystem.enabled = false;    // 적의 경우, 입력값을 받으면 안됨
         weaponObj.WeaponHUD.gameObject.SetActive(false);    // 적의 총알 정보 등은 보여지면 안됨
 

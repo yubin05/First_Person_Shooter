@@ -1,2 +1,2 @@
-Id,AttackSoundId,AttackPower,Distance
-120001,10005,5,1
+Id,AttackSoundId,AttackPower,Distance,WeaponType
+120001,10005,5,1,2
