@@ -78,7 +78,7 @@ public class GunInputSystem : WeaponInputSystem, PlayerInputAction.IBattleField_
                 var inputValue = context.ReadValue<float>();
                 if (inputValue == 1f)
                 {
-                    Debug.Log($"gunObject:{gunObject}, OwnerObject:{gunObject.OwnerObject}");
+                    // Debug.Log($"gunObject:{gunObject}, OwnerObject:{gunObject.OwnerObject}");
                     gunObject.OwnerObject.OnAttack();
                     shotDelayTime = 0f;
                 }

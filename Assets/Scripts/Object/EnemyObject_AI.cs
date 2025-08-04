@@ -17,6 +17,14 @@ public class EnemyObject_AI : MonoBehaviour
     {
         if (enemyObject == null) return;
         var enemy = enemyObject.data as Enemy;
+        
+        // 총을 장착하고 있으면서 총알이 없는 경우, 재장전 중이 아닌 경우에만 재장전
+        if (enemyObject.WeaponObject.data is GunInfo gunInfo && gunInfo.CurMagazineCapacity <= 0
+        && !enemyObject.MotionHandler.IsReload && !enemyObject.WeaponObject.MotionHandler.IsReload)
+        {
+            var gunObject = enemyObject.WeaponObject as GunObject;
+            gunObject.Reload();
+        }
 
         var nearestObj = GetNearestTrans();
         if (nearestObj != null)
@@ -30,7 +38,7 @@ public class EnemyObject_AI : MonoBehaviour
                 enemyObject.OnAttack();
             }
         }
-        enemy.AttackDelayTime += Time.deltaTime;
+        enemy.AttackDelayTime += Time.deltaTime;        
     }
 
     // 타깃 플레이어 체크
