@@ -142,6 +142,21 @@ public class PlayerController : CharacterController2
         weaponObj.WeaponInputSystem.enabled = true;
         weaponObj.WeaponHUD.gameObject.SetActive(true);
 
+        if (playerObj.TryGetComponent<HealthSystem>(out var healthSystem))
+        {
+            healthSystem.CurHp.OnChanged += (hp) => 
+            {
+                // 히트 이펙트 추가
+                if (hp <= 0) return; // 체력이 0이하면 이펙트 표시하지 않음
+                
+                // 체력 비율에 따라 히트 이펙트 강도 계산
+                float healthRatio = hp / healthSystem.MaxHp.Value;
+                float hitEffectIntensity = 1f - healthRatio; // 체력이 낮을수록 강한 이펙트
+                
+                playerObj.HitEffecter?.Show(hitEffectIntensity)/* .Forget() */;
+            };
+        }
+
         return playerObj as K;
     }
 }
