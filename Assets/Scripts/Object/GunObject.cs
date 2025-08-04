@@ -44,6 +44,7 @@ public class GunObject : WeaponObject
     // 무기 장착
     public override void Take()
     {
+        // Debug.Log($"GunObject Take");
         WeaponHUD.HitCanvasGroup.alpha = 0f;   // 히트 판정 캔버스 그룹 투명값 초기화
     }
 

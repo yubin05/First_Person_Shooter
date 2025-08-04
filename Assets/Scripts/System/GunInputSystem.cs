@@ -18,9 +18,13 @@ public class GunInputSystem : WeaponInputSystem, PlayerInputAction.IBattleField_
         shotDelayTime = 0f;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         inputAction.BattleField_Gun.SetCallbacks(this);
+    }
+
+    private void OnEnable()
+    {
         inputAction.BattleField_Gun.Enable();
     }
 
@@ -49,14 +53,7 @@ public class GunInputSystem : WeaponInputSystem, PlayerInputAction.IBattleField_
         if (!gunObject.MotionHandler.IsReload)
         {
             var inputAimingValue = inputAction.BattleField_Gun.Aiming.ReadValue<float>();
-            if (inputAimingValue == 1f)
-            {
-                gunObject.Aiming(true);
-            }
-            else
-            {
-                gunObject.Aiming(false);
-            }            
+            gunObject.Aiming(inputAimingValue == 1f);
         }
         else
         {
@@ -81,6 +78,7 @@ public class GunInputSystem : WeaponInputSystem, PlayerInputAction.IBattleField_
                 var inputValue = context.ReadValue<float>();
                 if (inputValue == 1f)
                 {
+                    Debug.Log($"gunObject:{gunObject}, OwnerObject:{gunObject.OwnerObject}");
                     gunObject.OwnerObject.OnAttack();
                     shotDelayTime = 0f;
                 }

@@ -15,9 +15,13 @@ public class KnifeInputSystem : WeaponInputSystem, PlayerInputAction.IBattleFiel
         inputAction = new PlayerInputAction();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         inputAction.BattleField_Knife.SetCallbacks(this);
+    }
+
+    private void OnEnable()
+    {
         inputAction.BattleField_Knife.Enable();
     }
 

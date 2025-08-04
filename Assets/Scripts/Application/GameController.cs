@@ -15,6 +15,7 @@ public class GameController
     public GunController GunController { get; private set; }
     public KnifeController KnifeController { get; private set; }
     public BulletController BulletController { get; private set; }    
+    public CameraController CameraController { get; private set; }
 
     public void Init(GameModel gameModel)
     {
@@ -23,7 +24,8 @@ public class GameController
         EnemyController = new EnemyController(gameModel);
         GunController = new GunController(gameModel);
         KnifeController = new KnifeController(gameModel);
-        BulletController = new BulletController(gameModel);        
+        BulletController = new BulletController(gameModel);
+        CameraController = new CameraController(gameModel);
     }
 }
 
@@ -134,10 +136,11 @@ public class PlayerController : CharacterController2
     public override K Spawn<T, K>(int id, Vector3 position, Quaternion rotation, Transform parent = null)
     {
         var playerObj = base.Spawn<T, K>(id, position, rotation, parent) as PlayerObject;
-        // var player = playerObj.data as Player;
+        var player = playerObj.data as Player;
 
         // 총 장착
         var weaponObj = playerObj.TakeWeapon(Define.DEFAULT_GUN_ID);
+        // Debug.Log($"weaponObj:{weaponObj}, WeaponInputSystem:{weaponObj.WeaponInputSystem}");
         weaponObj.WeaponInputSystem.enabled = true;
         weaponObj.WeaponHUD.gameObject.SetActive(true);
 
@@ -153,6 +156,36 @@ public class PlayerController : CharacterController2
                 float hitEffectIntensity = 1f - healthRatio; // 체력이 낮을수록 강한 이펙트
                 
                 playerObj.HitEffecter?.Show(hitEffectIntensity)/* .Forget() */;
+            };
+        }
+        playerObj.HitEffecter?.Show(0f);
+
+        if (BattleFieldScene.Instance != null)
+        {
+            if (BattleFieldScene.Instance.BattleFieldScene_Camera != null)
+            {
+                // 플레이어 캐릭터 소환 시, 배틀필드 카메라 타겟 해제 - 플레이어 캐릭터에 카메라 종속되어 있음
+                BattleFieldScene.Instance.BattleFieldScene_Camera.Target = null;
+
+                // 플레이어 캐릭터 사망 시, 배틀필드 카메라 타겟 설정
+                player.OnDataRemove += (_data) => 
+                {
+                    BattleFieldScene.Instance.BattleFieldScene_Camera.Target = playerObj.Cam.transform;
+                };
+            }
+
+            // 사망 시, 부활
+            player.OnDataRemove += (_data) => 
+            {
+                if (BattleFieldScene.Instance.BattleFieldScene_Player_Death_UI != null)
+                {
+                    BattleFieldScene.Instance.BattleFieldScene_Player_Death_UI.Time = player.BasicActorStat.ReviveTime;
+                    BattleFieldScene.Instance.BattleFieldScene_Player_Death_UI.OnReviveProcessEnd += () => 
+                    {
+                        // Debug.Log("ReviveProcessEnd");
+                        BattleFieldScene.Instance.SpawnPlayer(id);
+                    };                
+                }
             };
         }
 
@@ -209,11 +242,14 @@ public abstract class WeaponController : BaseController
         weapon.OnDataRemove += (data) => 
         {
             characterObj.WeaponObject = null;
+            characterObj.HandsObjectSystem.CurHandsObject.WeaponObject = null;
             weaponObj.OwnerObject = null;
         };
 
+        // Debug.Log($"Spawn WeaponObject:{weaponObj}, OwnerObject:{characterObj}");
         weaponObj.OwnerObject = characterObj;
         characterObj.WeaponObject = weaponObj;
+        characterObj.HandsObjectSystem.CurHandsObject.WeaponObject = weaponObj;
         return weaponObj;
     }
 }
@@ -255,7 +291,7 @@ public class KnifeController : WeaponController
 
         knifeObj.HitEvent += () => 
         {
-            if (knifeObj.OwnerObject != null) knifeObj.OwnerObject.HandsObjectSystem.CurHandsObject.WeaponObject.WeaponHUD.BlinkHitCanvas(0.3f);
+            if (knifeObj.OwnerObject != null) knifeObj.OwnerObject.HandsObjectSystem.CurHandsObject.WeaponObject.WeaponHUD.BlinkHitCanvas(0.3f).Forget();
         };
 
         return knifeObj as K;
@@ -275,7 +311,7 @@ public class BulletController : BaseController
 
         bulletObj.HitEvent += () => 
         {
-            if (gunObject.OwnerObject != null) gunObject.OwnerObject.HandsObjectSystem.CurHandsObject.WeaponObject.WeaponHUD.BlinkHitCanvas(0.1f);
+            if (gunObject.OwnerObject != null) gunObject.OwnerObject.HandsObjectSystem.CurHandsObject.WeaponObject.WeaponHUD.BlinkHitCanvas(0.1f).Forget();
         };
 
         var gun = gunObject.data as GunInfo;
@@ -283,4 +319,9 @@ public class BulletController : BaseController
 
         return bulletObj;
     }
+}
+
+public class CameraController : BaseController
+{
+    public CameraController(GameModel gameModel) : base(gameModel) {}
 }

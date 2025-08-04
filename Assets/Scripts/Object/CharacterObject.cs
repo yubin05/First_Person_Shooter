@@ -177,7 +177,7 @@ public class CharacterObject : EntityObject, IDamageable, IChangeWeapon
                 }
             };
         }        
-        WeaponObject = HandsObjectSystem.CurHandsObject.WeaponObject;
+        WeaponObject = HandsObjectSystem.CurHandsObject.WeaponObject as K;
         WeaponObject.Take(); WeaponObject.gameObject.SetActive(true);
         
         // 무기 장착 상태로 변경

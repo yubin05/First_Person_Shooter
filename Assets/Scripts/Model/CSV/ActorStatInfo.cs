@@ -6,6 +6,7 @@ public class ActorStatInfo : Data
     public float MaxHp { get; set; }
     public float MoveSpeed { get; set; }
     public float AimingSpeed { get; set; }
+    public float ReviveTime { get; set; }
 
     // Other
     private float MinAimingSpeed { get; } = 0.01f; private float MaxAimingSpeed { get; } = 1f;

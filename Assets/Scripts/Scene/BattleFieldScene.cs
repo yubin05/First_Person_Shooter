@@ -8,6 +8,12 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
     [SerializeField] private BattleFieldScene_Pause battleFieldScene_Pause;
     public bool IsPause { get => battleFieldScene_Pause.IsPause; set => battleFieldScene_Pause.IsPause = value; }   // 게임이 일시정지인지 체크
 
+    [SerializeField] private BattleFieldScene_Camera battleFieldScene_Camera;
+    public BattleFieldScene_Camera BattleFieldScene_Camera => battleFieldScene_Camera;
+
+    [SerializeField] private BattleFieldScene_Player_Death_UI battleFieldScene_Player_Death_UI;
+    public BattleFieldScene_Player_Death_UI BattleFieldScene_Player_Death_UI => battleFieldScene_Player_Death_UI;
+
     private PlayerInputAction inputAction;
 
     private void Awake()
@@ -33,9 +39,8 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
         IsPause = false;
     }
 
-    private void SpawnPlayer()
+    public void SpawnPlayer(int playerId=Define.DEFAULT_PLAYER_ID)
     {
-        int playerId = Define.DEFAULT_PLAYER_ID;
         var spawnPointInfo = GameApplication.Instance.GameModel.PresetData.ReturnData<SpawnPointInfo>(nameof(SpawnPointInfo), 110001);
 
         var pos = new Vector3(spawnPointInfo.PositionX, spawnPointInfo.PositionY, spawnPointInfo.PositionZ);
@@ -44,7 +49,7 @@ public class BattleFieldScene : LocalSingleton<BattleFieldScene>, PlayerInputAct
         var playerObj = GameApplication.Instance.GameController.PlayerController.Spawn<Player, PlayerObject>(playerId, pos, rot);
     }
 
-    private void SpawnEnemy()
+    public void SpawnEnemy()
     {
         var spawnPointInfos = GameApplication.Instance.GameModel.PresetData.ReturnDatas<SpawnPointInfo>(nameof(SpawnPointInfo));
         for (int i = 1; i < spawnPointInfos.Length; i++)
